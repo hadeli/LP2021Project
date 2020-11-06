@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Container;
+use App\Entity\ContainerModel;
 use App\Entity\ContainerProduct;
 use App\Entity\ContainerShip;
 use App\Entity\Product;
@@ -34,9 +35,14 @@ class MainController extends AbstractController
         switch ($id) {
             case 'new' :
                 $manager = $this->getDoctrine()->getManager();
+                if (!$manager->getRepository(ContainerShip::class)->findOneBy(['id' => $request->query->getInt('ship')]))
+                    return new Response('Ship non trouvé !!!');
+                if (!$manager->getRepository(ContainerModel::class)->findOneBy(['id' => $request->query->getInt('model')]))
+                    return new Response('Model non trouvé !!!');
+
                 $ship = $manager->getRepository(ContainerShip::class)->findOneBy(['id' => $request->query->getInt('ship')]);
                 $nb=0;
-                $nombre = $manager->getRepository(Container::class)->findOneBy(['containership_id' => $request->query->getInt('ship')]);
+                $nombre = $manager->getRepository(Container::class)->findBy(['containership_id' => $request->query->getInt('ship')]);
                 foreach ($nombre as $key){
                     $nb++;
                 }
@@ -129,6 +135,7 @@ class MainController extends AbstractController
 
                 $manager = $this->getDoctrine()->getManager();
 
+
                 $product = new Product();
                 $product->setName($request->query->get('name'));
                 $product->setHeight($request->query->getInt('height'));
@@ -137,7 +144,10 @@ class MainController extends AbstractController
 
                 $manager->persist($product);
                 $manager->flush();
+
                 return new Response('Product bien créé !!!');
+
+
 
             default :
 
@@ -156,15 +166,38 @@ class MainController extends AbstractController
     {
         $manager = $this->getDoctrine()->getManager();
 
-        $product = new ContainerProduct();
-        $product->setContainerId($request->query->getInt('container'));
-        $product->setProductId($request->query->getInt('product'));
-        $product->setQuantityId($request->query->getInt('quantity'));
+        if (!$manager->getRepository(Container::class)->findOneBy(['id' => $request->query->getInt('container')]))
+            return new Response('container non trouvé !!!');
+        if (!$manager->getRepository(Product::class)->findOneBy(['id' => $request->query->getInt('product')]))
+            return new Response('product non trouvé !!!');
 
-        $manager->persist($product);
-        $manager->flush();
+        $container = $manager->getRepository(Container::class)->findOneBy(['id' => $request->query->getInt('container')]);
+        $model = $manager->getRepository(ContainerModel::class)->findOneBy(['id' => $container->getContainerModelId()]);
+        $container_product = $manager->getRepository(ContainerProduct::class)->findBy(['container_id' => $request->query->getInt('container')]);
 
-        return new Response("Produit ajouté !!!");
+        $espace_container=$model->getHeight()*$model->getWidth()*$model->getLength();
+        $espace_content=0;
+        $espace_product = $manager->getRepository(Product::class)->findOneBy(['id' => $request->query->getInt('product')]);
+        $taille_product = $espace_product->getHeight()*$espace_product->getWidth()*$espace_product->getLength()*$request->query->getInt('quantity');
+
+        foreach ($container_product as $key){
+            $product = $manager->getRepository(Product::class)->findOneBy(['id' => $key->getProductId()]);
+            $espace_content = $espace_content + ($product->getHeight()*$product->getWidth()*$product->getLength())*$key->getQuantityId();
+        }
+        if ($espace_container >= $espace_content+$taille_product) {
+
+            $product = new ContainerProduct();
+            $product->setContainerId($request->query->getInt('container'));
+            $product->setProductId($request->query->getInt('product'));
+            $product->setQuantityId($request->query->getInt('quantity'));
+
+            $manager->persist($product);
+            $manager->flush();
+
+            return new Response("Produit ajouté !!!");
+        }else{
+            return new Response('Container trops plein !!!');
+        }
     }
 
 }
