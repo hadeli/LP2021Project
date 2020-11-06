@@ -22,7 +22,7 @@ class ContainershipNormalizer implements ContextAwareNormalizerInterface
         $data = [
             'id' => $object->getId(),
             'name' => $object->getName(),
-            'captain_name' => $object->getContainerModel(),
+            'captain_name' => $object->getCaptainName(),
             'container_limit' => $object->getContainerLimit(),
         ];
 
