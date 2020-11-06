@@ -8,12 +8,6 @@ use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 
 class ContainerModelNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
 {
-    private $normalizer;
-
-    public function __construct(ObjectNormalizer $normalizer)
-    {
-        $this->normalizer = $normalizer;
-    }
 
     public function normalize($object, string $format = null, array $context = []): array
     {
