@@ -53,9 +53,6 @@ class ContainerController extends AbstractController
     public function addContainer(Request $request){
 
 
-
-
-
         $model = $request->query->get('model');
         try{
             $modelObject =  $this->getDoctrine()->getRepository(ContainerModel::class)->find($model);
@@ -72,8 +69,6 @@ class ContainerController extends AbstractController
 
         $inside = $this->getDoctrine()->getRepository(Container::class)->countInside($ship);
 
-        dump($inside);
-        dump($shipObject->getContainerLimit());
         if ($inside >= $shipObject->getContainerLimit()){
             return new Response("Ce bateau est plein");
         }

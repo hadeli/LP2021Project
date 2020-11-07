@@ -57,8 +57,7 @@ class ContainerProductController extends  AbstractController
             $used += (int)$this->getDoctrine()->getRepository(Product::class)->getVolume($productInside->getProduct()->getId())*(int)$productInside->getQuantity();
         }
         $availible = $containerVolume - $used;
-        dump($availible);
-        dump($productVolume);
+
 
         if ($availible > $productVolume){
 
