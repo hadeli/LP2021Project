@@ -4,30 +4,30 @@
 
 get_container:
   path: /container
-  controller: App\Controller\ContainerController::getContainerAction
+  controller: App\Controller\ContainerController::getAllContainer
   methods: GET
 
 get_containerId:
   path: /container/{id}
-  controller: App\Controller\ContainerController::getContainerIdAction
+  controller: App\Controller\ContainerController::getContainerById
   methods: GET
 
 get_containership:
-  path: /containership
-  controller: App\Controller\ContainerShipController::getContainershipAction
+  path: /containerShip
+  controller: App\Controller\ContainerShipController::getAllContainerShip
   methods: GET
 
 get_containershipId:
-  path: /containership/{id}
-  controller: App\Controller\ContainerShipController::getContainershipIdAction
+  path: /containerShip/{id}
+  controller: App\Controller\ContainerShipController::getContainerShipById
   methods: GET
 
 get_product:
   path: /product
-  controller: App\Controller\ProductController::getProductAction
+  controller: App\Controller\ProductController::getAllProduct
   methods: GET
 
 get_productId:
   path: /product/{id}
-  controller: App\Controller\ProductController::getProductIdAction
+  controller: App\Controller\ProductController::getProductById
   methods: GET

@@ -2,12 +2,22 @@
 
 namespace App\Serializer\Normalizer;
 
+use App\Entity\ContainerProduct;
 use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 
 class ContainerProductNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
 {
+    public function supportsNormalization($data, string $format = null): bool
+    {
+        return $data instanceof ContainerProduct;
+    }
+
+    public function hasCacheableSupportsMethod(): bool
+    {
+        return true;
+    }
+
     public function normalize($object, string $format = null, array $context = []): array
     {
         return [
@@ -16,15 +26,5 @@ class ContainerProductNormalizer implements NormalizerInterface, CacheableSuppor
             'product_id' => $object->getProductId(),
             'quantity' => $object->getQuantity()
         ];
-    }
-
-    public function supportsNormalization($data, string $format = null): bool
-    {
-        return $data instanceof \App\Entity\ContainerProduct;
-    }
-
-    public function hasCacheableSupportsMethod(): bool
-    {
-        return true;
     }
 }

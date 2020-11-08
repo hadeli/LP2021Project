@@ -2,20 +2,33 @@
 
 namespace App\Controller;
 
+use App\Entity\Product;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ProductController extends AbstractController
 {
     /**
-     * @Route("/product", name="product")
+     * @Route("/product", name="getAllProduct" , methods={"GET"})
+     *
      */
-    public function index(): Response
+    public function getAllProduct()
     {
-        return $this->json([
-            'message' => 'Welcome to your new controller!',
-            'path' => 'src/Controller/ProductController.php',
-        ]);
+        $manager = $this->getDoctrine()->getManager();
+        $containerList = $manager->getRepository(Product::class)->findAll();
+        return $this->json($containerList);
+    }
+
+
+    /**
+     * @Route("/product/{id}", name="getProductById",methods={"GET"})
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function getProductById(int $id)
+    {
+        return $this->json($this->getDoctrine()
+            ->getRepository(Product::class)->find($id));
+
     }
 }
