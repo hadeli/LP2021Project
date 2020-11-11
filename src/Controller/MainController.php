@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Container;
+use App\Entity\ContainerModel;
 use App\Entity\ContainerProduct;
 use App\Entity\ContainerShip;
 use App\Entity\Product;
@@ -26,6 +27,44 @@ class MainController extends AbstractController
     /**
      * @Route("/container/{id}", name="app_container_id")
      */
+
+    public function UniqueContainer($id, Request $request):Response{
+        switch ($id){
+            case 'new' :
+                $manager = $this->getDoctrine()->getManager();
+                if (!$manager->getRepository(ContainerModel::class)->findOneBy(['id' => $request->query->getInt('model')]))
+                    return new Response('Aucun model avec cet id : ' .$id);
+                if (!$manager->getRepository(ContainerShip::class)->findOneBy(['id' => $request->query->getInt('ship')]))
+                    return new Response('Aucun ship avec cet id : ' .$id);
+
+                $ship = $manager->getRepository(ContainerShip::class)->findOneBy(['id' => $request->query->getInt('ship')]);
+                $nb=0;
+                $nombre = $manager->getRepository(Container::class)->findBy(['containership_id' => $request->query->getInt('ship')]);
+                foreach ($nombre as $key){
+                    $nb++;
+                }
+                if($ship->getContainerLimit() > $nb+1){
+                    $container = new Container();
+                    $container->setColor($request->query->get('color'));
+                    $container->setContainerModelId($request->query->get('model'));
+                    $container->setContainershipId($request->query->get('ship'));
+
+                    $manager->persist($container);
+                    $manager->flush();
+                    return new Response('Container ajouté');
+                }else{
+                    return new Response('Le ship ' .$ship->getName(). 'contient trop de container');
+                }
+            default:
+                if($id < 3){
+                    return $this->json(['aucune valeur']);
+                }
+                $manager = $this->getDoctrine()->getManager();
+                $container = $manager->getRepository(Container::class)->findOneBy(['id' => $id]);
+        }
+    }
+
+
     public function containerId($id):Response{
         if ($id == "new") {
             $request = Request::createFromGlobals();
