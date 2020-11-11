@@ -7,11 +7,11 @@ use App\Entity\ContainerModel;
 use App\Entity\ContainerProduct;
 use App\Entity\ContainerShip;
 use App\Entity\Product;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Repository\ContainerRepository;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Contracts\HttpClient\ResponseInterface;
 
 class MainController extends AbstractController
 {
@@ -148,23 +148,45 @@ class MainController extends AbstractController
     /**
      * @Route("/product-container/new", name="app_containerproduct_new")
      */
-    public function addProduct(Request $request): Response{
+    public function addProduct(Request $request): Response
+    {
 
         $manager = $this->getDoctrine()->getManager();
 
-        if(!$manager->getRepository(Container::class)->findOneBy(['id' => $request->query->getInt('container')]))
+        if (!$manager->getRepository(Container::class)->findOneBy(['id' => $request->query->getInt('container')]))
             return new Response('Pas de conainter');
 
-        if(!$manager->getRepository(Product::class)->findOneBy(['id' => $request->query->getInt('product')]))
+        if (!$manager->getRepository(Product::class)->findOneBy(['id' => $request->query->getInt('product')]))
             return new Response('Pas de produit');
 
+        $container = $manager->getRepository(Container::class)->findOneBy(['id' => $request->query->getInt('container')]);
+        $model = $manager->getRepository(ContainerModel::class)->findOneBy(['id' => $container->getContainerModelId()]);
+        $product_container = $manager->getRepository(ContainerProduct::class)->findBy(['container_id' => $request->query->getInt('container')]);
 
+        $space_container = $model->getHeight() * $model->getWidth() * $model->getLength();
+        $space_content = 0;
+        $space_product = $manager->getRepository(Product::class)->findOneBy(['id' => $request->query->getInt('product')]);
 
+        $product_height = $space_product->getHeight() * $space_product->getWidth() * $space_product->getLength() * $request->query->getInt('quantity');
 
+        foreach ($product_container as $key) {
+            $product = $manager->getRepository(Product::class)->findOneBy(['id' => $key->getProductId()]);
+            $space_content = $space_content + ($product->getHeight() * $product->getWidth() * $product->getLength());
+        }
+        if ($space_container >= $space_content + $product_height) {
+            $product = new ContainerProduct();
+            $product->setContainerId(($request->query->getInt('container')));
+            $product->setProductId(($request->query->getInt('product')));
+            $product->setQuantity(($request->query->getInt('quantity')));
 
-}
+            $manager->persist($product);
+            $manager->flush();
 
+            return new Response('Produit ajouté');
+        } else {
+            return new Response('Container plein');
+        }
 
-
+    }
 
 }
