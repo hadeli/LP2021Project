@@ -64,48 +64,8 @@ class MainController extends AbstractController
         }
     }
 
-
-    public function containerId($id):Response{
-        if ($id == "new") {
-            $request = Request::createFromGlobals();
-
-            if ($request->getMethod() == "POST") {
-                $manager = $this->getDoctrine()->getManager();
-
-                $container = new Container();
-
-                if (isset($_POST['color'])) {
-                    $container->setColor($_POST['color']);
-                }
-
-                if (isset($_POST['containerModelId'])) {
-                    $container->setContainerModelId($_POST['containerModelId']);
-                }
-
-                if (isset($_POST['containershipId'])) {
-                    $container->setContainershipId($_POST['containershipId']);
-                }
-
-                $manager->persist($container);
-                $manager->flush();
-
-                return new Response("container ajouté");
-            }
-        }else{
-            $manager = $this->getDoctrine()->getManager();
-            $containerId = $manager->getRepository(Container::class)->findOneBy(['id'=>$id]);
-
-            if($containerId == NULL){
-                $containerId= [
-                    'error' => 'Aucun conteneur avec id = ' .$id
-                ];
-            }
-            return $this->json($containerId);
-        }
-    }
-
     /**
-     * @Route("/containership", name="containership")
+     * @Route("/containership", name="app_containership")
      */
     public function containershipList():Response{
         $manager = $this->getDoctrine()->getManager();
@@ -116,6 +76,24 @@ class MainController extends AbstractController
     /**
      * @Route("/containership/{id}", name="containership_id")
      */
+    public function Uniquecontainership($id, Request $request):Response{
+        switch ($id){
+            case 'new':
+                $shipmanager = $this->getDoctrine()->getManager();
+                $ship = new ContainerShip();
+                $ship->setName($request->query->get('name'));
+                $ship->setCaptainName($request->query->get('captain'));
+                $ship->setContainerLimit($request->query->getInt('limit'));
+                $shipmanager->persist($ship);
+                $shipmanager->flush();
+
+                return new Response('Container créé');
+
+
+        }
+    }
+
+
     public function containershipId($id):Response{
         if ($id == "new") {
             $request = Request::createFromGlobals();
