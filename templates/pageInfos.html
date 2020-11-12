@@ -1,0 +1,198 @@
+<!-- PAGE D'INFORMATIONS : accessible à la route '/' -->
+<!-- PAGE D'INFORMATIONS : accessible à la route '/' -->
+<!-- PAGE D'INFORMATIONS : accessible à la route '/' -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>LP2021PROJECT - YONIS SAVARY</h1>
+    <!-- UTILS -->
+    <h2> Extrait de console debug:route </h2>
+    <pre>
+       ---------------------- -------- -------- ------ -------------------------- 
+        Name                   Method   Scheme   Host   Path                      
+       ---------------------- -------- -------- ------ -------------------------- 
+        _preview_error         ANY      ANY      ANY    /_error/{code}.{_format}  
+        containerList          ANY      ANY      ANY    /container
+        newContainer           POST     ANY      ANY    /container/new
+        container              ANY      ANY      ANY    /container/{id}
+        containerProductList   ANY      ANY      ANY    /container-product        
+        newContainerProduct    POST     ANY      ANY    /container-product/new    
+        containerProduct       ANY      ANY      ANY    /container-product/{id}   
+        containerShipList      ANY      ANY      ANY    /containership
+        newContainerShip       POST     ANY      ANY    /containership/new        
+        containerShip          ANY      ANY      ANY    /containership/{id}       
+        info                   ANY      ANY      ANY    /
+        productList            ANY      ANY      ANY    /product
+        newProduct             POST     ANY      ANY    /product/new
+        product                ANY      ANY      ANY    /product/{id}
+       ---------------------- -------- -------- ------ --------------------------
+    </pre>
+    <h2>Données de Retour possibles</h2>
+    <table>
+        <tr>
+            <td>Code</td>
+            <td>Status</td>
+            <td>Message</td>
+            <td>Explication</td>
+        </tr>
+        <tr>
+            <td>0</td>
+            <td>OK</td>
+            <td>&lt;Object&gt;</td>
+            <td>La requête a bien été effectuée, le JSON retourné est l'object créé dans la BDD</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>ERROR</td>
+            <td>&lt;Key&gt; key is missing</td>
+            <td>Une des clés necessaires à la création d'un objet est manquante 
+                (&lt;Key&gt; sera remplacé par le nom de la clé pour plus d'info)</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>ERROR</td>
+            <td>The SQL Query cannot be performed</td>
+            <td>Une des informations rentrées n'est pas bonne
+                <br> par exemple: l'ID rentré pointe sur un objet inexistant</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>ERROR</td>
+            <td>The target has too many container on it already !</td>
+            <td>Assez explicite: Le bateau cible a déjà trop de conteneurs dessus </td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>ERROR</td>
+            <td>Need more space to add this product</td>
+            <td>Les produits demandés à l'ajout prennent trop d'espace pour le conteneur cible</td>
+        </tr>
+    </table>
+    <h2>Espace de test</h2>
+    <section>
+        <!-- NOUVEAU CONTAINERSHIP -->
+        <form action="/containership/new" method="POST" target="print_popup">
+            <p><i>NOUVEAU CONTAINERSHIP</i></p>
+            <label>NAME</label>
+            <input type="text" name="NAME"/>
+            <label>CAPTAIN_NAME</label>
+            <input type="text" name="CAPTAIN_NAME"/>
+            <label>CONTAINER_LIMIT</label>
+            <input type="number" name="CONTAINER_LIMIT"/>
+            <input type="submit" value="OK">
+        </form>
+        <!-- NOUVEAU PRODUCT -->
+        <form action="/product/new" method="POST" target="print_popup">
+            <p><i>NOUVEAU PRODUCT</i></p>
+            <label>NAME</label>
+            <input type="text" name="NAME"/>
+            <label>LENGTH</label>
+            <input type="number" name="LENGTH"/>
+            <label>WIDTH</label>
+            <input type="number" name="WIDTH"/>
+            <label>HEIGHT</label>
+            <input type="number" name="HEIGHT"/>
+            <input type="submit" value="OK">
+        </form>
+        <!-- NOUVEAU CONTAINER -->
+        <form action="/container/new" method="POST" target="print_popup" >
+            <p><i>NOUVEAU CONTAINER</i></p>
+            <label>COLOR</label>
+            <input type="text" name="COLOR"/>
+            <label>CONTAINER_MODEL_ID</label>
+            <input type="number" name="CONTAINER_MODEL_ID"/>
+            <label>CONTAINERSHIP_ID</label>
+            <input type="number" name="CONTAINERSHIP_ID"/>
+            <input type="submit" value="OK">
+        </form>
+        <!-- NOUVEAU CONTAINER_PRODUCT -->
+        <form action="/container-product/new" method="POST" target="print_popup">
+            <p><i>NOUVEAU CONTAINER_PRODUCT</i></p>
+            <label>CONTAINER_ID</label>
+            <input type="number" name="CONTAINER_ID"/>
+            <label>PRODUCT_ID</label>
+            <input type="number" name="PRODUCT_ID"/>
+            <label>QUANTITY</label>
+            <input type="number" name="QUANTITY"/>
+            <input type="submit" value="OK">
+        </form>
+    </section>
+</body>
+<style>
+    .red
+    {
+        color: #A00;
+    }
+
+    *
+    {
+        font-family: "Open Sans", sans-serif;
+    }
+
+    section
+    {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    body
+    {
+        padding: 1rem;
+    }
+
+
+    form
+    {
+        width: 30%;
+        display: flex;
+        flex-direction: column;
+        padding: 1rem;
+    }
+
+    input
+    {
+        padding: 0.2rem;
+    }
+
+    input[type="submit"]
+    {
+        cursor: pointer;
+        margin-top: 0.8rem
+    }
+
+    pre
+    {
+        font-family: "Consolas", monospace;
+    }
+
+    label
+    {
+        font-size: 0.6rem;
+        opacity: 0.5;
+        margin-top: 0.8rem
+    }
+
+    table
+    {
+        border-collapse: collapse;
+    }
+
+    td
+    {
+        padding: 1rem;
+        border: solid 1px black;
+    }
+
+    h2
+    {
+        margin-top: 3rem;
+        margin-bottom: 2rem;
+    }
+</style>
+</html>
