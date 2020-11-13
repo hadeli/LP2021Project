@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Containership;
 use App\Repository\ContainershipRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -23,7 +24,22 @@ class ContainershipController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="getContainership",  methods={"GET"})
+     * @Route("/add", name="addContainership")
+     * @return JsonResponse
+     */
+    public function add(): JsonResponse
+    {
+        $containership = $this->generateOne();
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($containership);
+        $entityManager->flush();
+
+        return $this->json($containership);
+    }
+
+    /**
+     * @Route("/{id}", name="getContainership", methods={"GET"})
      * @param int $id
      * @param ContainershipRepository $containershipRepository
      * @return JsonResponse
@@ -31,5 +47,14 @@ class ContainershipController extends AbstractController
     public function getById(int $id, ContainershipRepository $containershipRepository): JsonResponse
     {
         return $this->json($containershipRepository->findBy(['id' => $id]));
+    }
+
+    private function generateOne(): Containership {
+        $containership = new Containership();
+        $containership
+            ->setName("Navire #".time())
+            ->setCaptainName("Dylan")
+            ->setContainerLimit(rand(1, 300));
+        return $containership;
     }
 }

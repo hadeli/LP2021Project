@@ -23,7 +23,7 @@ class ContainerController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="getContainer",  methods={"GET"})
+     * @Route("/{id}", name="getContainer", methods={"GET"})
      * @param int $id
      * @param ContainerRepository $containerRepository
      * @return JsonResponse
