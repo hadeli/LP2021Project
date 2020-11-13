@@ -38,6 +38,15 @@ class ContainershipController extends AbstractController
         return $this->json($containership);
     }
 
+    private function generateOne(): Containership {
+        $containership = new Containership();
+        $containership
+            ->setName("Navire #".time())
+            ->setCaptainName("Dylan")
+            ->setContainerLimit(rand(1, 300));
+        return $containership;
+    }
+
     /**
      * @Route("/{id}", name="getContainership", methods={"GET"})
      * @param int $id
@@ -47,14 +56,5 @@ class ContainershipController extends AbstractController
     public function getById(int $id, ContainershipRepository $containershipRepository): JsonResponse
     {
         return $this->json($containershipRepository->findBy(['id' => $id]));
-    }
-
-    private function generateOne(): Containership {
-        $containership = new Containership();
-        $containership
-            ->setName("Navire #".time())
-            ->setCaptainName("Dylan")
-            ->setContainerLimit(rand(1, 300));
-        return $containership;
     }
 }

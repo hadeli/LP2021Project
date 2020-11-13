@@ -38,6 +38,16 @@ class ProductController extends AbstractController
         return $this->json($product);
     }
 
+    private function generateOne(): Product {
+        $product = new Product();
+        $product
+            ->setName("Product #".time())
+            ->setLength(rand(50,20000))
+            ->setWidth(3000)
+            ->setHeight(3000);
+        return $product;
+    }
+
     /**
      * @Route("/{id}", name="getProduct", methods={"GET"})
      * @param int $id
@@ -47,15 +57,5 @@ class ProductController extends AbstractController
     public function getById(int $id, ProductRepository $productRepository): JsonResponse
     {
         return $this->json($productRepository->findBy(['id' => $id]));
-    }
-
-    private function generateOne(): Product {
-        $product = new Product();
-        $product
-            ->setName("Product #".time())
-            ->setLength(rand(50,20000))
-            ->setWidth(3000)
-            ->setHeight(3000);
-        return $product;
     }
 }
