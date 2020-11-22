@@ -2,9 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\CONTAINER;
 use App\Entity\CONTAINERPRODUCT;
 use App\Entity\PRODUCT;
+
 use App\Normalizer\CONTAINERPRODUCTNormalizer;
+
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,7 +21,7 @@ class ContainerProductController extends AbstractController
      */
     public function getProductList(): Response
     {
-        return $this->json($this->getDoctrine()->getRepository(PRODUCT::class)->findAll());
+        return $this->json($this->getDoctrine()->getRepository(CONTAINERPRODUCT::class)->findAll());
     }
 
     /**
@@ -38,13 +41,17 @@ class ContainerProductController extends AbstractController
             }
         }
 
-        $remainingReq = $this->getDoctrine()->getRepository(CONTAINERPRODUCT::class)->getRemainingSpace($req->request->get("CONTAINER_ID"));
+        $volumeReq = $this->getDoctrine()->getRepository(CONTAINER::class)->getVolume($req->request->get("CONTAINER_ID"));
+        $usedVolumeReq = $this->getDoctrine()->getRepository(CONTAINER::class)->getUsedVolume($req->request->get("CONTAINER_ID"));
         $productVolumeReq = $this->getDoctrine()->getRepository(PRODUCT::class)->getProductVolume($req->request->get("PRODUCT_ID"));
+        
         try
         {
-            $remaining = intval($remainingReq[0]["remaining"]);
-            $productVolume = intval($productVolumeReq[0]["volume"]);
-            $quantity = intval($req->request->get("QUANTITY"));
+            $volume = $volumeReq[0]["volume"] + 0;
+            $usedVolume = $usedVolumeReq[0]["used"] + 0 ;
+            $remaining = $volume - $usedVolume;
+            $productVolume = $productVolumeReq[0]["volume"] + 0;
+            $quantity = $req->request->get("QUANTITY") + 0;
         }
         catch (Exception $e)
         {
@@ -60,7 +67,11 @@ class ContainerProductController extends AbstractController
             return $this->json([
                 'status' => 'ERROR',
                 'code' => 4,
-                'message' => "Need more space to add this product"
+                'message' => "Need more space to add this product",
+                "remaining_space"=>$remaining,
+                "volume"=>$volume,
+                "usedVolume"=>$usedVolume,
+                "needed_space"=> $quantity*$productVolume
             ]);
         }
         

@@ -1,11 +1,12 @@
 <?php
 
 namespace App\Controller;
-
+/*
 use Exception;
 use App\Entity\CONTAINERPRODUCT;
-use App\Entity\PRODUCT;
 use App\Normalizer\CONTAINERPRODUCTNormalizer;
+*/
+use App\Entity\PRODUCT;
 use App\Normalizer\PRODUCTNormalizer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

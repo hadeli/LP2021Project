@@ -21,6 +21,7 @@ class CONTAINERSHIPNormalizer implements ContextAwareNormalizerInterface
     {
         return [
             'ID' => $object->getId(),
+            'NAME' => $object->getNAME(),
             'CAPTAIN_NAME' => $object->getCAPTAINNAME(),
             'CONTAINER_LIMIT' => $object->getCONTAINERLIMIT()
         ];

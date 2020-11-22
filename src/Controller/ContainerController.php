@@ -62,7 +62,9 @@ class ContainerController extends AbstractController
             return $this->json([
                 'status' => 'ERROR',
                 'code'=> 3,
-                'message' => "The target has too many container on it already !"
+                'message' => "The target has too many container on it already !",
+                "limit" => $limit,
+                "already_stored" => $stored
             ]);
         }
 

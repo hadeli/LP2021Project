@@ -1,6 +1,6 @@
+<!-- LP2021 - Project - Yonis SAVARY -->
 <!-- PAGE D'INFORMATIONS : accessible à la route '/' -->
-<!-- PAGE D'INFORMATIONS : accessible à la route '/' -->
-<!-- PAGE D'INFORMATIONS : accessible à la route '/' -->
+<!-- Résumé de tous ce qui a été fait -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,124 +9,165 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>LP2021PROJECT - YONIS SAVARY</h1>
-    <!-- UTILS -->
-    <h2> Extrait de console debug:route </h2>
-    <pre>
-       ---------------------- -------- -------- ------ -------------------------- 
-        Name                   Method   Scheme   Host   Path                      
-       ---------------------- -------- -------- ------ -------------------------- 
+    <h1>LP2021Project - Yonis SAVARY</h1>
+    <section>
+        <h2>Cahier des Charges</h2>
+        <div class="f-column">
+            <h3>Structure du projet</h3>
+            <span>Controlleurs <span class="green">√</span></span>
+            <span>Normalizers <span class="green">√</span></span>
+            <span>Entités <span class="green">√</span></span>
+            <span>Repositories <span class="green">√</span></span>
+        </div>
+        <div class="f-column">
+            <h3>Routes à créer (voir section suivante pour + de détails)</h3>
+            <span>Requêtes classiques <span class="green">√</span></span>
+            <span>Requêtes d'ajout <span class="green">√</span></span>
+            <span>Routes de création en POST <span class="green">√</span></span>
+        </div>
+        <div class="f-column">
+            <h3>Règles métier (voir section des erreurs pour + de détails)</h3>
+            <span>Limite d'un porte-conteneurs <span class="green">√</span></span>
+            <span>Limite d'un conteneur <span class="green">√</span></span>
+        </div>
+    </section>
+    <section>
+        <h2>Routes du projet :</h2>
+        <pre>
+        ---------------------- -------- -------- ------ -------------------------- 
+            Name                   Method   Scheme   Host   Path                      
+        ---------------------- -------- -------- ------ -------------------------- 
         _preview_error         ANY      ANY      ANY    /_error/{code}.{_format}  
+        ---------------------- -------- -------- ------ -------------------------- 
         containerList          ANY      ANY      ANY    /container
         newContainer           POST     ANY      ANY    /container/new
         container              ANY      ANY      ANY    /container/{id}
+        ---------------------- -------- -------- ------ -------------------------- 
         containerProductList   ANY      ANY      ANY    /container-product        
         newContainerProduct    POST     ANY      ANY    /container-product/new    
         containerProduct       ANY      ANY      ANY    /container-product/{id}   
+        ---------------------- -------- -------- ------ -------------------------- 
         containerShipList      ANY      ANY      ANY    /containership
         newContainerShip       POST     ANY      ANY    /containership/new        
         containerShip          ANY      ANY      ANY    /containership/{id}       
-        info                   ANY      ANY      ANY    /
+        ---------------------- -------- -------- ------ -------------------------- 
         productList            ANY      ANY      ANY    /product
         newProduct             POST     ANY      ANY    /product/new
         product                ANY      ANY      ANY    /product/{id}
-       ---------------------- -------- -------- ------ --------------------------
-    </pre>
-    <h2>Données de Retour possibles</h2>
-    <table>
-        <tr>
-            <td>Code</td>
-            <td>Status</td>
-            <td>Message</td>
-            <td>Explication</td>
-        </tr>
-        <tr>
-            <td>0</td>
-            <td>OK</td>
-            <td>&lt;Object&gt;</td>
-            <td>La requête a bien été effectuée, le JSON retourné est l'object créé dans la BDD</td>
-        </tr>
-        <tr>
-            <td>1</td>
-            <td>ERROR</td>
-            <td>&lt;Key&gt; key is missing</td>
-            <td>Une des clés necessaires à la création d'un objet est manquante 
-                (&lt;Key&gt; sera remplacé par le nom de la clé pour plus d'info)</td>
-        </tr>
-        <tr>
-            <td>2</td>
-            <td>ERROR</td>
-            <td>The SQL Query cannot be performed</td>
-            <td>Une des informations rentrées n'est pas bonne
-                <br> par exemple: l'ID rentré pointe sur un objet inexistant</td>
-        </tr>
-        <tr>
-            <td>3</td>
-            <td>ERROR</td>
-            <td>The target has too many container on it already !</td>
-            <td>Assez explicite: Le bateau cible a déjà trop de conteneurs dessus </td>
-        </tr>
-        <tr>
-            <td>4</td>
-            <td>ERROR</td>
-            <td>Need more space to add this product</td>
-            <td>Les produits demandés à l'ajout prennent trop d'espace pour le conteneur cible</td>
-        </tr>
-    </table>
-    <h2>Espace de test</h2>
+        ---------------------- -------- -------- ------ --------------------------
+        info                   ANY      ANY      ANY    /                         
+        ---------------------- -------- -------- ------ --------------------------s
+        </pre>
+    </section>
     <section>
+        <h2>Données de Retour possibles :</h2>
+        <table>
+            <tr>
+                <td>Code</td>
+                <td>Status</td>
+                <td>Message</td>
+                <td>Explication</td>
+            </tr>
+            <tr>
+                <td>0</td>
+                <td>OK</td>
+                <td>&lt;Object&gt;</td>
+                <td>La requête a bien été effectuée, le JSON retourné est l'object créé dans la BDD</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>ERROR</td>
+                <td>&lt;Key&gt; key is missing</td>
+                <td>Une des clés necessaires à la création d'un objet est manquante 
+                    (&lt;Key&gt; sera remplacé par le nom de la clé pour plus d'info)</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>ERROR</td>
+                <td>The SQL Query cannot be performed</td>
+                <td>Une des informations rentrées n'est pas bonne
+                    <br> par exemple: l'ID rentré pointe sur un objet inexistant</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>ERROR</td>
+                <td>The target has too many container on it already !</td>
+                <td>Assez explicite: Le bateau cible a déjà trop de conteneurs dessus </td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>ERROR</td>
+                <td>Need more space to add this product</td>
+                <td>Les produits demandés à l'ajout prennent trop d'espace pour le conteneur cible</td>
+            </tr>
+        </table>
+    </section>
+    <section>
+        <h2>Espace de test :</h2>
         <!-- NOUVEAU CONTAINERSHIP -->
-        <form action="/containership/new" method="POST" target="print_popup">
-            <p><i>NOUVEAU CONTAINERSHIP</i></p>
-            <label>NAME</label>
-            <input type="text" name="NAME"/>
-            <label>CAPTAIN_NAME</label>
-            <input type="text" name="CAPTAIN_NAME"/>
-            <label>CONTAINER_LIMIT</label>
-            <input type="number" name="CONTAINER_LIMIT"/>
-            <input type="submit" value="OK">
-        </form>
-        <!-- NOUVEAU PRODUCT -->
-        <form action="/product/new" method="POST" target="print_popup">
-            <p><i>NOUVEAU PRODUCT</i></p>
-            <label>NAME</label>
-            <input type="text" name="NAME"/>
-            <label>LENGTH</label>
-            <input type="number" name="LENGTH"/>
-            <label>WIDTH</label>
-            <input type="number" name="WIDTH"/>
-            <label>HEIGHT</label>
-            <input type="number" name="HEIGHT"/>
-            <input type="submit" value="OK">
-        </form>
-        <!-- NOUVEAU CONTAINER -->
-        <form action="/container/new" method="POST" target="print_popup" >
-            <p><i>NOUVEAU CONTAINER</i></p>
-            <label>COLOR</label>
-            <input type="text" name="COLOR"/>
-            <label>CONTAINER_MODEL_ID</label>
-            <input type="number" name="CONTAINER_MODEL_ID"/>
-            <label>CONTAINERSHIP_ID</label>
-            <input type="number" name="CONTAINERSHIP_ID"/>
-            <input type="submit" value="OK">
-        </form>
-        <!-- NOUVEAU CONTAINER_PRODUCT -->
-        <form action="/container-product/new" method="POST" target="print_popup">
-            <p><i>NOUVEAU CONTAINER_PRODUCT</i></p>
-            <label>CONTAINER_ID</label>
-            <input type="number" name="CONTAINER_ID"/>
-            <label>PRODUCT_ID</label>
-            <input type="number" name="PRODUCT_ID"/>
-            <label>QUANTITY</label>
-            <input type="number" name="QUANTITY"/>
-            <input type="submit" value="OK">
-        </form>
+        <div class="f-row">
+            <form action="/containership/new" method="POST" target="print_popup">
+                <p><i>NOUVEAU CONTAINERSHIP</i></p>
+                <label>NAME</label>
+                <input type="text" name="NAME"/>
+                <label>CAPTAIN_NAME</label>
+                <input type="text" name="CAPTAIN_NAME"/>
+                <label>CONTAINER_LIMIT</label>
+                <input type="number" name="CONTAINER_LIMIT"/>
+                <input type="submit" value="OK">
+            </form>
+            <!-- NOUVEAU PRODUCT -->
+            <form action="/product/new" method="POST" target="print_popup">
+                <p><i>NOUVEAU PRODUCT</i></p>
+                <label>NAME</label>
+                <input type="text" name="NAME"/>
+                <label>LENGTH</label>
+                <input type="number" name="LENGTH"/>
+                <label>WIDTH</label>
+                <input type="number" name="WIDTH"/>
+                <label>HEIGHT</label>
+                <input type="number" name="HEIGHT"/>
+                <input type="submit" value="OK">
+            </form>
+            <!-- NOUVEAU CONTAINER -->
+            <form action="/container/new" method="POST" target="print_popup" >
+                <p><i>NOUVEAU CONTAINER</i></p>
+                <label>COLOR</label>
+                <input type="text" name="COLOR"/>
+                <label>CONTAINER_MODEL_ID</label>
+                <input type="number" name="CONTAINER_MODEL_ID"/>
+                <label>CONTAINERSHIP_ID</label>
+                <input type="number" name="CONTAINERSHIP_ID"/>
+                <input type="submit" value="OK">
+            </form>
+            <!-- NOUVEAU CONTAINER_PRODUCT -->
+            <form action="/container-product/new" method="POST" target="print_popup">
+                <p><i>NOUVEAU CONTAINER_PRODUCT</i></p>
+                <label>CONTAINER_ID</label>
+                <input type="number" name="CONTAINER_ID"/>
+                <label>PRODUCT_ID</label>
+                <input type="number" name="PRODUCT_ID"/>
+                <label>QUANTITY</label>
+                <input type="number" name="QUANTITY"/>
+                <input type="submit" value="OK">
+            </form>
+        </div>
     </section>
 </body>
 <style>
+    :root
+    {
+        font-size: 20px;
+    }
+
     .red
     {
         color: #A00;
+    }
+
+    .green
+    {
+        color: #0A0;
     }
 
     *
@@ -134,11 +175,17 @@
         font-family: "Open Sans", sans-serif;
     }
 
-    section
+    .f-row
     {
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
+    }
+    
+    .f-column
+    {
+        display: flex;
+        flex-direction: column;
     }
 
     body
@@ -153,6 +200,12 @@
         display: flex;
         flex-direction: column;
         padding: 1rem;
+    }
+
+
+    section
+    {
+        margin-top: 3rem;
     }
 
     input
@@ -185,14 +238,17 @@
 
     td
     {
+        font-size: 0.8rem;
         padding: 1rem;
         border: solid 1px black;
     }
 
     h2
     {
-        margin-top: 3rem;
-        margin-bottom: 2rem;
+        margin: 0;
+        padding-top: 1.5rem;
+        padding-bottom: 1rem;
+        border-top: 1px solid #333;
     }
 </style>
 </html>
