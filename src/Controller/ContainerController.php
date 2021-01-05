@@ -58,15 +58,26 @@ class ContainerController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->manager->persist($container);
-            $this->manager->flush();
 
-            $message = 'Le conteneur a été crée à l\'id : ' . $container->getId();
-
-            return $this->render('container.html.twig', [
-                'formContainer' => $form->createView(),
-                'msg' => $message
+            $containerList = $this->manager->getRepository(Container::class)->findBy([
+                'containership' => $form['containership']->getData()
             ]);
+
+            $containershipLimit = $container->getContainership()->getContainerLimit();
+
+            if (count($containerList) >= $containershipLimit) {
+                $this->addFlash('error', 'Ce porte-conteneurs ne peut pas excéder ' . $containershipLimit . ' conteneur(s) !');
+            } else {
+                $this->manager->persist($container);
+                $this->manager->flush();
+
+                $message = 'Le conteneur a été crée à l\'id : ' . $container->getId();
+
+                return $this->render('container.html.twig', [
+                    'formContainer' => $form->createView(),
+                    'msg' => $message
+                ]);
+            }
         }
 
         return $this->render('container.html.twig', [

@@ -10,6 +10,11 @@
     <body>
     <div class="container" style="margin-top: 2.5%">
         {% block body %}{% endblock %}
+        {% for message in app.flashes('error') %}
+            <div class="alert alert-danger">
+                {{ message }}
+            </div>
+        {% endfor %}
     </div>
 
         {% block javascripts %}{% endblock %}
