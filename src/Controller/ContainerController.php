@@ -71,12 +71,7 @@ class ContainerController extends AbstractController
                 $this->manager->persist($container);
                 $this->manager->flush();
 
-                $message = 'Le conteneur a été crée à l\'id : ' . $container->getId();
-
-                return $this->render('container.html.twig', [
-                    'formContainer' => $form->createView(),
-                    'msg' => $message
-                ]);
+                $this->addFlash('success', 'Le conteneur a été crée à l\'id : ' . $container->getId());
             }
         }
 

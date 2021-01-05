@@ -62,12 +62,7 @@ class ContainershipController extends AbstractController
             $this->manager->persist($containership);
             $this->manager->flush();
 
-            $message = 'Le porte-conteneurs "' . $containership->getName() . '" a été crée !';
-
-            return $this->render('containership.html.twig', [
-                'formContainership' => $form->createView(),
-                'msg' => $message
-            ]);
+            $this->addFlash('success', 'Le porte-conteneurs "' . $containership->getName() . '" a été crée !');
         }
 
         return $this->render('containership.html.twig', [

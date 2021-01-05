@@ -68,12 +68,7 @@ class ProductController extends AbstractController
             $this->manager->persist($product);
             $this->manager->flush();
 
-            $message = 'Le produit "' . $product->getName() . '" a été ajouter !';
-
-            return $this->render('product.html.twig', [
-                'formProduct' => $form->createView(),
-                'msg' => $message
-            ]);
+            $this->addFlash('success', 'Le produit "' . $product->getName() . '" a été ajouter !');
         }
 
         return $this->render('product.html.twig', [
