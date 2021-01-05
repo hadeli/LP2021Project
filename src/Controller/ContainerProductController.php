@@ -68,6 +68,7 @@ class ContainerProductController extends AbstractController
                 $productLimit += ($product->getProduct()->getLength() * $product->getProduct()->getWidth() * $product->getProduct()->getHeight()) * $product->getQuantity();
             }
 
+            // Règle métier : Limite d'un conteneur
             if ($containerLimit - $productLimit < $productToInsert) {
                 $this->addFlash('error', 'Vous avez dépassé la place limite du conteneur !');
             } else {

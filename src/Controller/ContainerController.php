@@ -65,6 +65,7 @@ class ContainerController extends AbstractController
 
             $containershipLimit = $container->getContainership()->getContainerLimit();
 
+            // Règle métier : Limite d'un porte conteneur
             if (count($containerList) >= $containershipLimit) {
                 $this->addFlash('error', 'Ce porte-conteneurs ne peut pas excéder ' . $containershipLimit . ' conteneur(s) !');
             } else {
