@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% form_theme formProduct 'bootstrap_4_layout.html.twig' %}
+
+{% block title %}Ajout d'un produit{% endblock %}
+
+{% block body %}
+
+    <h1 style="margin: 2.5% 0" class="text-center">Ajouter un produit</h1>
+
+    {{ form_start(formProduct) }}
+
+    <div class="mb-3">
+        {{ form_row(formProduct.name) }}
+    </div>
+    <div class="mb-3">
+        {{ form_row(formProduct.length) }}
+    </div>
+    <div class="mb-3">
+        {{ form_row(formProduct.width) }}
+    </div>
+    <div class="mb-3">
+        {{ form_row(formProduct.height) }}
+    </div>
+
+    {{ form_row(formProduct.save) }}
+
+    {{ form_end(formProduct) }}
+
+    {% if msg is defined %}
+        <div class="alert alert-success" role="alert">{{ msg }}</div>
+    {% endif %}
+
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% form_theme formContainership 'bootstrap_4_layout.html.twig' %}
+
+{% block title %}Création Porte-conteneurs{% endblock %}
+
+{% block body %}
+
+    <h1 style="margin: 2.5% 0" class="text-center">Ajouter un porte-conteneurs</h1>
+
+    {{ form_start(formContainership) }}
+
+    <div class="mb-3">
+        {{ form_row(formContainership.name) }}
+    </div>
+    <div class="mb-3">
+        {{ form_row(formContainership.captainName) }}
+    </div>
+    <div class="mb-3">
+        {{ form_row(formContainership.containerLimit) }}
+    </div>
+
+    {{ form_row(formContainership.save) }}
+
+    {{ form_end(formContainership) }}
+
+    {% if msg is defined %}
+        <div class="alert alert-success" role="alert">{{ msg }}</div>
+    {% endif %}
+
+{% endblock %}

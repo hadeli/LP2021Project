@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% form_theme formContainer 'bootstrap_4_layout.html.twig' %}
+
+{% block title %}Création Conteneur{% endblock %}
+
+{% block body %}
+
+    <h1 style="margin: 2.5% 0" class="text-center">Ajouter un conteneur</h1>
+
+    {{ form_start(formContainer) }}
+
+    <div class="mb-3">
+        {{ form_row(formContainer.color) }}
+    </div>
+    <div class="mb-3">
+        {{ form_row(formContainer.containerModel) }}
+    </div>
+    <div class="mb-3">
+        {{ form_row(formContainer.containership) }}
+    </div>
+
+    {{ form_row(formContainer.save) }}
+
+    {{ form_end(formContainer) }}
+
+    {% if msg is defined %}
+        <div class="alert alert-success" role="alert">{{ msg }}</div>
+    {% endif %}
+
+{% endblock %}
