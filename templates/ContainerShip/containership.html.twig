@@ -1,0 +1,12 @@
+{% extends "base.html.twig" %}
+
+
+{% block body %}
+	<h2 class="mb-5">Add Container Ship</h2>
+	{{ form_start(form) }}
+	{{form_row(form.name)}}
+	{{form_row(form.captainName)}}
+	{{form_row(form.containerLimit)}}
+	<button type="submit" class="btn btn-primary">Ajouter</button>
+	{{ form_end(form) }}
+{% endblock %}

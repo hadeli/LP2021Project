@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>
+			{% block title %}Welcome!
+			{% endblock %}
+		</title>
+		<link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}"> {% block stylesheets %}{% endblock %}
+		{% form_theme form 'bootstrap_4_layout.html.twig' %}
+	</head>
+	<body>
+
+		<div class="container mt-5">
+			{% for message in app.flashes('error') %}
+				<div class="alert alert-danger">
+					{{ message }}
+				</div>
+			{% endfor %}
+			{% for message in app.flashes('success') %}
+				<div class="alert alert-success">
+					{{ message }}
+				</div>
+			{% endfor %}
+			{% block body %}{% endblock %}
+		</div>
+		{% block javascripts %}{% endblock %}
+	</body>
+</html>

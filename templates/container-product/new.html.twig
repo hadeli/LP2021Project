@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+
+	<h2 class="mb-5">Add Container Product</h2>
+
+	{{ form_start(form) }}
+
+	{{ form_row(form.container) }}
+
+	{{ form_row(form.product) }}
+
+	{{ form_row(form.quantity) }}
+
+	<button type="submit" class="btn btn-primary">Add</button>
+	{{ form_end(form) }}
+
+
+{% endblock %}

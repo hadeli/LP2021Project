@@ -1,3 +1,57 @@
-#index:
-#    path: /
-#    controller: App\Controller\DefaultController::index
+container:
+    path: /container
+    methods: GET
+    controller: App\Controller\ContainerController::getAllContainer
+
+containerid:
+    path: /container/{id}
+    methods : GET
+    controller: App\Controller\ContainerController::getContainer
+    requirements: 
+        id: \d+
+
+containership:
+    path: /containership
+    methods: GET
+    controller: App\Controller\ContainerShipController::getAllContainerShip
+
+containershipid:
+    path: /containership/{id}
+    methods: GET
+    controller: App\Controller\ContainerShipController::getContainerShip
+    requirements: 
+        id: \d+
+
+product:
+    path: /product
+    methods: GET
+    controller: App\Controller\ProductController::getAllProduct
+
+productid:
+    path: /product/{id}
+    methods: GET
+    controller: App\Controller\ProductController::getProduct
+    requirements: 
+        id: \d+
+
+
+container_ship_post:
+    path: /containership/new
+    methods: [POST, GET]
+    controller: App\Controller\ContainerShipController::newContainerShip
+
+
+product_post:
+    path: /product/new
+    methods: [POST, GET]
+    controller: App\Controller\ProductController::newProduct
+
+product-container_post:
+    path: /product-container/new
+    methods: [POST, GET]
+    controller: App\Controller\ContainerProductController::newContainerProduct
+
+new-container:
+    path: /container/new
+    methods: [POST, GET]
+    controller: App\Controller\ContainerController::newContainer
