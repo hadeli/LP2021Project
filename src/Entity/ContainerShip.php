@@ -35,14 +35,12 @@ class ContainerShip
 
     /**
      * ContainerShip constructor.
-     * @param $id
      * @param $name
      * @param $captain_name
      * @param $container_limit
      */
-    public function __construct($id, $name, $captain_name, $container_limit)
+    public function __construct($name, $captain_name, $container_limit)
     {
-        $this->id = $id;
         $this->name = $name;
         $this->captain_name = $captain_name;
         $this->container_limit = $container_limit;

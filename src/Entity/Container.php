@@ -35,14 +35,12 @@ class Container
 
     /**
      * Container constructor.
-     * @param $id
      * @param $color
      * @param $container_model_id
      * @param $containership_id
      */
-    public function __construct($id, $color, $container_model_id, $containership_id)
+    public function __construct($color, $container_model_id, $containership_id)
     {
-        $this->id = $id;
         $this->color = $color;
         $this->container_model_id = $container_model_id;
         $this->containership_id = $containership_id;

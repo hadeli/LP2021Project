@@ -3,28 +3,22 @@
 namespace App\Serializer\Normalizer;
 
 use App\Entity\Container;
-use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
-use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Symfony\Component\Serializer\Normalizer\ContextAwareNormalizerInterface;
 
-class ContainerNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
+class ContainerNormalizer implements ContextAwareNormalizerInterface
 {
-    public function supportsNormalization($data, string $format = null): bool
+    public function supportsNormalization($data, string $format = null, array $context = [])
     {
         return $data instanceof Container;
     }
 
-    public function hasCacheableSupportsMethod(): bool
-    {
-        return true;
-    }
-
-    public function normalize($object, string $format = null, array $context = []): array
+    public function normalize($object, string $format = null, array $context = [])
     {
         return [
             'id' => $object->getId(),
             'color' => $object->getColor(),
-            'container_model_id' => $object->getContainerModelId(),
-            'containership_id' => $object->getContainershipId()
+            'container_model_id' =>  $object->getContainerModelId(),
+            'containership_id' =>  $object->getContainerShipId()
         ];
     }
 }

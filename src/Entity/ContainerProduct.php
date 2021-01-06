@@ -35,14 +35,12 @@ class ContainerProduct
 
     /**
      * ContainerProduct constructor.
-     * @param $id
      * @param $container_id
      * @param $product_id
      * @param $quantity
      */
-    public function __construct($id, $container_id, $product_id, $quantity)
+    public function __construct($container_id, $product_id, $quantity)
     {
-        $this->id = $id;
         $this->container_id = $container_id;
         $this->product_id = $product_id;
         $this->quantity = $quantity;

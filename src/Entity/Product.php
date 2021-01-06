@@ -40,15 +40,13 @@ class Product
 
     /**
      * Product constructor.
-     * @param $id
      * @param $name
      * @param $length
      * @param $width
      * @param $height
      */
-    public function __construct($id, $name, $length, $width, $height)
+    public function __construct($name, $length, $width, $height)
     {
-        $this->id = $id;
         $this->name = $name;
         $this->length = $length;
         $this->width = $width;

@@ -3,22 +3,16 @@
 namespace App\Serializer\Normalizer;
 
 use App\Entity\Product;
-use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
-use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Symfony\Component\Serializer\Normalizer\ContextAwareNormalizerInterface;
 
-class ProductNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
+class ProductNormalizer implements ContextAwareNormalizerInterface
 {
-    public function supportsNormalization($data, string $format = null): bool
+    public function supportsNormalization($data, string $format = null, array $context = [])
     {
         return $data instanceof Product;
     }
 
-    public function hasCacheableSupportsMethod(): bool
-    {
-        return true;
-    }
-
-    public function normalize($object, string $format = null, array $context = []): array
+    public function normalize($object, string $format = null, array $context = [])
     {
         return [
             'id' => $object->getId(),

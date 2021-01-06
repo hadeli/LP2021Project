@@ -2,32 +2,52 @@
 #    path: /
 #    controller: App\Controller\DefaultController::index
 
-get_container:
-  path: /container
-  controller: App\Controller\ContainerController::getAllContainer
-  methods: GET
-
-get_containerId:
-  path: /container/{id}
-  controller: App\Controller\ContainerController::getContainerById
-  methods: GET
-
-get_containership:
-  path: /containerShip
-  controller: App\Controller\ContainerShipController::getAllContainerShip
-  methods: GET
-
-get_containershipId:
-  path: /containerShip/{id}
-  controller: App\Controller\ContainerShipController::getContainerShipById
-  methods: GET
-
-get_product:
-  path: /product
-  controller: App\Controller\ProductController::getAllProduct
-  methods: GET
-
-get_productId:
-  path: /product/{id}
-  controller: App\Controller\ProductController::getProductById
-  methods: GET
+#get_container:
+#  path: /container
+#  controller: App\Controller\ContainerController::getAllContainer
+#  methods: GET
+#
+#get_containerId:
+#  path: /container/{id}
+#  controller: App\Controller\ContainerController::getContainerById
+#  methods: GET
+#
+#post_container:
+#  path: /container/new
+#  controller: App\Controller\ContainerController::postContainer
+#  methods: POST
+#
+#get_containership:
+#  path: /containerShip
+#  controller: App\Controller\ContainerShipController::getAllContainerShip
+#  methods: GET
+#
+#get_containershipId:
+#  path: /containerShip/{id}
+#  controller: App\Controller\ContainerShipController::getContainerShipById
+#  methods: GET
+#
+#post_containership:
+#  path: /containerShip/new
+#  controller: App\Controller\ContainerShipController::postContainerShip
+#  methods: POST
+#
+#get_product:
+#  path: /product
+#  controller: App\Controller\ProductController::getAllProduct
+#  methods: GET
+#
+#get_productId:
+#  path: /product/{id}
+#  controller: App\Controller\ProductController::getProductById
+#  methods: GET
+#
+#post_product:
+#  path: /product/new
+#  controller: App\Controller\ProductController::postProduct
+#  methods: POST
+#
+#post_product-container:
+#  path: /productContainer/new
+#  controller: App\Controller\ProductContainerController::postProductContainer
+#  methods: POST
