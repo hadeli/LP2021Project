@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="APP/Entity\Container" table="container">
+    <indexes>
+      <index name="CONTAINER_CONTAINER_MODEL_ID_fk" columns="CONTAINER_MODEL_ID"/>
+      <index name="CONTAINER_CONTAINERSHIP_ID_fk" columns="CONTAINERSHIP_ID"/>
+    </indexes>
+    <unique-constraints>
+      <unique-constraint name="CONTAINER_ID_uindex" columns="ID"/>
+    </unique-constraints>
+    <id name="id" type="integer" column="ID">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="color" type="string" column="COLOR" length="20" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <many-to-one field="containership" target-entity="ContainerShip" fetch="LAZY">
+      <join-columns>
+        <join-column name="CONTAINERSHIP_ID" referenced-column-name="ID"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="containerModel" target-entity="ContainerModel" fetch="LAZY">
+      <join-columns>
+        <join-column name="CONTAINER_MODEL_ID" referenced-column-name="ID"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>
