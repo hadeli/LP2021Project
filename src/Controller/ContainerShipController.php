@@ -3,25 +3,26 @@
 // src/Controller/ContainerController.php
 namespace App\Controller;
 
-use App\Entity\Container;
+
+use App\Entity\Containership;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 // ...
 
-class ContainerController extends AbstractController
+class ContainerShipController extends AbstractController
 {
     //return container id
-    public function GetContainer(int $id): JsonResponse
+    public function GetContainerShip(int $id): JsonResponse
     {
-        $container = $this->getDoctrine()->getRepository(Containe::class)->find($id);
+        $container = $this->getDoctrine()->getRepository(Containership::class)->find($id);
         return $this->json([$container]);
     }
 
     //return all containers
-    public function ListContainers(): JsonResponse
+    public function ListContainerShips(): JsonResponse
     {
-        $container = $this->getDoctrine()->getRepository(Container::class)->findAll();
+        $container = $this->getDoctrine()->getRepository(Containership::class)->findAll();
         return $this->json([$container]);
     }
 }
