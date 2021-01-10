@@ -24,8 +24,10 @@ class ProductNormalizer implements ContextAwareNormalizerInterface
             'name' => $object->getName(),
             'length' => $object->getLength(),
             'width' => $object->getWidth(),
-            'height' => $object->getHeight(),     
+            'height' => $object->getHeight(),
         ];
     }
 }
+
+
 
