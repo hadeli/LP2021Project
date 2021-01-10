@@ -36,3 +36,10 @@ GetProduct:
   methods: GET
   requirements:
     id: \d+
+
+CreateContainerShip:
+  path: /containership/new
+  controller: App\Controller\ContainerShipController::CreateContainerShip
+  methods: [POST, GET]
+  requirements:
+    id: \d+
