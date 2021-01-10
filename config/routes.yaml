@@ -1,3 +1,14 @@
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index
+ListContainers:
+  path: /container
+  controller: App\Controller\ContainerController::ListContainers
+  methods: GET
+
+GetContainer:
+  path: /container/{id}
+  controller: App\Controller\ContainerController::GetContainer
+  methods: GET
+  requirements:
+    id: \d+
