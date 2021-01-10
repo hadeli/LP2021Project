@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\ContainerShip;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ContainerShipController extends AbstractController
@@ -12,11 +12,16 @@ class ContainerShipController extends AbstractController
     /**
      * @Route("/containership", name="list_container_ship")
      */
-    public function showListContainerShip() : JsonResponse
+    public function showListContainerShip() : Response
     {
-        $manager = $this->getDoctrine()->getManager();
-        $list = $manager->getRepository(ContainerShip::class)->findAll();
+        return $this->json($this->getDoctrine()->getRepository(ContainerShip::class)->findAll());
+    }
 
-        return $this->json($list);
+    /**
+     * @Route("/containership/{id}", name="container_ship")
+     */
+    public function showSpecificContainerShip($id): Response
+    {
+        return $this->json($this->getDoctrine()->getRepository(ContainerShip::class)->find($id));
     }
 }
