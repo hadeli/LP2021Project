@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Containership
  *
  * @ORM\Table(name="CONTAINERSHIP")
- * @ORM\Entity(repositoryClass="App\Repository\Containership")
+ * @ORM\Entity(repositoryClass="App\Repository\ContainershipRepository")
  */
 class Containership
 {

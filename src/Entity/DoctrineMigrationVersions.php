@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * DoctrineMigrationVersions
  *
  * @ORM\Table(name="doctrine_migration_versions")
- * @ORM\Entity(repositoryClass="App\Repository\DoctrineMigrationVersions")
+ * @ORM\Entity(repositoryClass="App\Repository\DoctrineMigrationVersionsRepository")
  */
 class DoctrineMigrationVersions
 {

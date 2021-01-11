@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Container
  *
  * @ORM\Table(name="CONTAINER", uniqueConstraints={@ORM\UniqueConstraint(name="CONTAINER_ID_uindex", columns={"ID"})}, indexes={@ORM\Index(name="CONTAINER_CONTAINER_MODEL_ID_fk", columns={"CONTAINER_MODEL_ID"}), @ORM\Index(name="CONTAINER_CONTAINERSHIP_ID_fk", columns={"CONTAINERSHIP_ID"})})
- * @ORM\Entity(repositoryClass="App\Repository\Container")
+ * @ORM\Entity(repositoryClass="App\Repository\ContainerRepository")
  */
 class Container
 {

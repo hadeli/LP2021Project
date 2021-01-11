@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\Containership;
+use App\Entity\ContainerProduct;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method Containership|null find($id, $lockMode = null, $lockVersion = null)
- * @method Containership|null findOneBy(array $criteria, array $orderBy = null)
- * @method Containership[]    findAll()
- * @method Containership[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method ContainerProduct|null find($id, $lockMode = null, $lockVersion = null)
+ * @method ContainerProduct|null findOneBy(array $criteria, array $orderBy = null)
+ * @method ContainerProduct[]    findAll()
+ * @method ContainerProduct[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class Containership extends ServiceEntityRepository
+class ContainerProductRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Containership::class);
+        parent::__construct($registry, ContainerProduct::class);
     }
 
     // /**
-    //  * @return Containership[] Returns an array of Containership objects
+    //  * @return ContainerProduct[] Returns an array of ContainerProduct objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class Containership extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Containership
+    public function findOneBySomeField($value): ?ContainerProduct
     {
         return $this->createQueryBuilder('c')
             ->andWhere('c.exampleField = :val')

@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\ContainerModel;
+use App\Entity\Container;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method ContainerModel|null find($id, $lockMode = null, $lockVersion = null)
- * @method ContainerModel|null findOneBy(array $criteria, array $orderBy = null)
- * @method ContainerModel[]    findAll()
- * @method ContainerModel[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Container|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Container|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Container[]    findAll()
+ * @method Container[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ContainerModel extends ServiceEntityRepository
+class ContainerRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, ContainerModel::class);
+        parent::__construct($registry, Container::class);
     }
 
     // /**
-    //  * @return ContainerModel[] Returns an array of ContainerModel objects
+    //  * @return Container[] Returns an array of Container objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class ContainerModel extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?ContainerModel
+    public function findOneBySomeField($value): ?Container
     {
         return $this->createQueryBuilder('c')
             ->andWhere('c.exampleField = :val')
