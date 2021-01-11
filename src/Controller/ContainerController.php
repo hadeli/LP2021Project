@@ -14,7 +14,7 @@ class ContainerController extends AbstractController
     //return container id
     public function GetContainer(int $id): JsonResponse
     {
-        $container = $this->getDoctrine()->getRepository(Containe::class)->find($id);
+        $container = $this->getDoctrine()->getRepository(Container::class)->find($id);
         return $this->json([$container]);
     }
 

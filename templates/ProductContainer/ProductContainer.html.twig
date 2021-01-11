@@ -1,0 +1,24 @@
+<p>Create a new Product Container :</p> <br>
+
+<form method="post">
+{#    <label for="fcontainerID">containerID</label>#}
+{#    <input type="text" id="containerID" name="containerID"><br>#}
+    <label for="productID">Product</label>
+    <select id="productID" name="productID">
+        {% for Product in tableProduct %}
+            <option value="{{ Product.id }}">{{ Product.name }}</option>
+        {% endfor %}
+    </select><br>
+
+    <label for="containerID">ContainerID</label>
+    <select id="containerID" name="containerID">
+        {% for Container in tableContainer %}
+            <option value="{{ Container.id }}">{{ Container.id }}</option>
+        {% endfor %}
+    </select><br>
+
+    <label for="quantity">Quantity</label>
+    <input type="number" id="quantity" name="quantity"><br>
+
+    <input type="submit" value="Submit">
+</form>

@@ -26,16 +26,36 @@ class ContainerShipController extends AbstractController
         $containership = $this->getDoctrine()->getRepository(Containership::class)->findAll();
         return $this->json([$containership]);
     }
-    public function CreateContainerShip(Request $request): JsonResponse
+    public function CreateContainerShip(Request $request): Response
     {
-        $manager = $this->getDoctrine()->getManager();
-        $containership = new ContainerShip();
-        $containership->setName($request->query->get('name'));
-        $containership->setCaptainName($request->query->get('captainName'));
-        $containership->setContainerLimit($request->query->get('containerLimit'));
-        $manager->persist($containership);
-        $manager->flush();
+        if ($request->query->has('name') && $request->query->has('captainName') && $request->query->has('containerLimit')) {
+            echo 'GET';
 
-        return $this->json($containership);
+            $manager = $this->getDoctrine()->getManager();
+            $containership = new ContainerShip();
+            $containership->setName($request->query->get('name'));
+            $containership->setCaptainName($request->query->get('captainName'));
+            $containership->setContainerLimit($request->query->get('containerLimit'));
+            $manager->persist($containership);
+            $manager->flush();
+
+            return $this->json($containership);
+        } elseif ($request->request->has('name') && $request->request->has('captainName') && $request->request->has('containerLimit')) {
+            echo 'POST';
+            //do something
+            $manager = $this->getDoctrine()->getManager();
+            $containership = new ContainerShip();
+            $containership->setName($request->request->get('name'));
+            $containership->setCaptainName($request->request->get('captainName'));
+            $containership->setContainerLimit($request->request->get('containerLimit'));
+            $manager->persist($containership);
+            $manager->flush();
+
+            return $this->json($containership);
+        } else {
+            return $this->render('ContainerShip/ContainerShip.html.twig');
+            //return $this->json(['The Post or get does not have name, captainName and containerLimit' ]);
+        }
+
     }
 }
