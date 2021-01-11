@@ -7,6 +7,28 @@ use Symfony\Component\Serializer\Normalizer\ContextAwareNormalizerInterface;
 
 class ContainerNormalizer implements ContextAwareNormalizerInterface
 {
+
+    /**
+     * @var ContainerModelNormalizer
+     */
+    private $containerModelNormalizer;
+
+    /**
+     * @var ContainerShipNormalizer
+     */
+    private $containerShipNormalizer;
+
+    /**
+     * ContainerNormalizer constructor.
+     * @param ContainerModelNormalizer $containerModelNormalizer
+     * @param ContainerShipNormalizer $containerShipNormalizer
+     */
+    public function __construct(ContainerModelNormalizer $containerModelNormalizer, ContainerShipNormalizer $containerShipNormalizer)
+    {
+        $this->containerModelNormalizer = $containerModelNormalizer;
+        $this->containerShipNormalizer = $containerShipNormalizer;
+    }
+
     public function supportsNormalization($data, string $format = null, array $context = [])
     {
         return $data instanceof Container;
@@ -22,8 +44,8 @@ class ContainerNormalizer implements ContextAwareNormalizerInterface
         return [
             'id' => $object->getId(),
             'color' => $object->getColor(),
-            'containerModel' => $object->getContainerModel(),
-            'containerShip' => $object->getContainerShip(),
+            'containerModel' => $this->containerModelNormalizer->normalize($object->getContainerModel()),
+            'containerShip' => $this->containerShipNormalizer->normalize($object->getContainership()),
         ];
     }
 }

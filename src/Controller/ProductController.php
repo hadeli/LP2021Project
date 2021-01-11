@@ -19,7 +19,7 @@ class ProductController extends AbstractController
     }
 
     /**
-     * @Route("/product/{id}", name="getProduct", methods={"GET"})
+     * @Route("/product/{id}", name="getProduct", methods={"GET"}, requirements={"id"="\d+"})
      * @param int $id
      * @return JsonResponse
      */
