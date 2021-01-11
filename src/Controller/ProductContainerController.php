@@ -7,7 +7,10 @@ namespace App\Controller;
 use App\Entity\Container;
 use App\Entity\ContainerProduct;
 use App\Entity\Product;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,33 +22,49 @@ class ProductContainerController extends AbstractController
 
     public function CreateProductContainer(Request $request): Response
     {
-        if ($request->request->has('containerID') && $request->request->has('productID') && $request->request->has('quantity')) {
-            echo 'POST';
+        $ProductContainer = new ContainerProduct();
+        $form =$this->createFormBuilder($ProductContainer)
+            ->add('container', EntityType::class, [
+                'class' => Container::class,
+                'choice_label' => 'id'
+            ])
+            ->add('product', EntityType::class, [
+                'class' => Product::class,
+                'choice_label' => 'name'
+            ])
+            ->add('quantity', IntegerType::class)
+            ->add('submit', SubmitType::class, ['label'=>'Create Container Product'])
+            ->getForm()
+        ;
 
-            //il faut verifier que le produit rentre bien dans le container
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            // $form->getData() holds the submitted values
+            // but, the original `$task` variable has also been updated
+
+            $ProductContainer = $form->getData();
+
+            // ... perform some action, such as saving the task to the database
+
+            $VolumeProduct = $ProductContainer->getProduct()->getLength() * $ProductContainer->getProduct()->getWidth() * $ProductContainer->getProduct()->getHeight();
+            $VolumeProducts = $VolumeProduct * $ProductContainer->getQuantity();
+
+            $VolumeContainer = $ProductContainer->getContainer()->getContainerModel()->getlength() * $ProductContainer->getContainer()->getContainerModel()->getWidth() * $ProductContainer->getContainer()->getContainerModel()->getHeight();
+            dd($VolumeContainer);
 
 
-            $manager = $this->getDoctrine()->getManager();
-            $product = new ContainerProduct();
+            // for example, if Task is a Doctrine entity, save it!
+//             $entityManager = $this->getDoctrine()->getManager();
+//             $entityManager->persist($ProductContainer);
+//             $entityManager->flush();
 
-            $container = $this->getDoctrine()->getRepository(Container::class)->find($request->request->get('containerID'));
 
-            $product->setContainerById($container);
-
-            $Product = $this->getDoctrine()->getRepository(Container::class)->find($request->request->get('productID'));
-            $product->setProduct($Product);
-
-            $product->setQuantity($request->request->get('quantity'));
-            $manager->persist($product);
-            $manager->flush();
-
-            return $this->json($product);
-        } else {
-            $tableProduct = $this->getDoctrine()->getRepository(Product::class)->findAll();
-            $tableContainer = $this->getDoctrine()->getRepository(Container::class)->findAll();
-            return $this->render('ProductContainer/ProductContainer.html.twig', ['tableProduct'=>$tableProduct,'tableContainer'=>$tableContainer ]);
-
-            //return $this->json(['The Post or get does not have name, captainName and containerLimit' ]);
+            //je sais pas s'il faut le faire ça ....
+            //return $this->redirectToRoute('task_success');
         }
+
+        return $this->render('ProductContainer/ProductContainer.html.twig', [
+            'form' => $form->createView()
+        ]);
     }
 }
