@@ -38,7 +38,7 @@ class ContainerShipController extends AbstractController
     public function newContainerShip(Request $request): Response
     {
 
-        if ($request->request->has('name') && $request->request->has('captainName')&& $request->request->has('containerLimit')) {
+        if ($request->request->has('name') && $request->request->has('captainName') && $request->request->has('containerLimit')) {
 
             $managerEntity = $this->getDoctrine()->getManager();
             $containerShip = new containerShip();
@@ -47,7 +47,7 @@ class ContainerShipController extends AbstractController
             $containerShip->setContainerLimit($request->request->get('containerLimit'));
             $managerEntity->persist($containerShip);
             $managerEntity->flush();
-             return new Response('Le porte-conteneur ' .$containerShip->getName().' a bien été ajouté');
+             return new Response('The container ship ' .$containerShip->getName().' has been successfully added');
         } else{
             return $this->render('containership/containership.html.twig');
         }
