@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Container;
+use App\Entity\ContainerModel;
 use App\Entity\ContainerProduct;
 use App\Entity\Product;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -14,16 +15,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ContainerProductController extends AbstractController
 {
-    /**
-     * @Route("/product-container/{id}", name="getContainerProduct", methods={"GET"}, requirements={"id"="\d+"})
-     * @param int $id
-     * @return JsonResponse
-     */
-    public function getContainerProduct(int $id): JsonResponse
-    {
-        return $this->json($this->getDoctrine()->getRepository(ContainerProduct::class)->find($id));
-    }
-
     /**
      * @Route("/product-container/new", name="newContainerProduct", methods={"POST", "GET"})
      * @param Request $request
@@ -50,9 +41,37 @@ class ContainerProductController extends AbstractController
 
             if ($form->isSubmitted() && $form->isValid()) {
 
-                 $entityManager = $this->getDoctrine()->getManager();
-                 $entityManager->persist($containerProduct);
-                 $entityManager->flush();
+                $containerProduct = $form->getData();
+
+                $productVolume = $containerProduct->getProduct()->getLength() * $containerProduct->getProduct()->getWidth() * $containerProduct->getProduct()->getHeight() * $containerProduct->getQuantity();
+
+
+                $containerModel = $this->getDoctrine()->getRepository(ContainerModel::class)->find($containerProduct->getContainer()->getContainerModel());
+                $containerVolume = $containerModel->getLength() * $containerModel->getWidth() * $containerModel->getHeight();
+
+                $containers =  $this->getDoctrine()->getRepository(ContainerProduct::class)->findBy(['container' => $containerProduct->getContainer()]);
+
+                $usedVolume = 0;
+
+                foreach ($containers as $container){
+                    $productInside = $this->getDoctrine()->getRepository(Product::class)->find($container->getProduct());
+                    $usedVolume += $productInside->getLength() * $productInside->getWidth() * $productInside->getHeight();
+                }
+
+                $remainingVolume =  $containerVolume - $usedVolume;
+
+                if($remainingVolume > $productVolume)
+                {
+                    $entityManager = $this->getDoctrine()->getManager();
+                    $entityManager->persist($containerProduct);
+                    $entityManager->flush();
+
+                    return new Response("The product has been added to the container ".$containerProduct->getContainer()->getId());
+
+                } else {
+
+                    return new Response("There is not enough room in the container " .$containerProduct->getContainer()->getId());
+                }
             }
 
             return $this->render("containerproduct/containerproduct.html.twig", [
