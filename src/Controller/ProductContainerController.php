@@ -46,18 +46,36 @@ class ProductContainerController extends AbstractController
 
             // ... perform some action, such as saving the task to the database
 
+            $VolumeContainer = $ProductContainer->getContainer()->getContainerModel()->getlength() * $ProductContainer->getContainer()->getContainerModel()->getWidth() * $ProductContainer->getContainer()->getContainerModel()->getHeight();
+
+
             $VolumeProduct = $ProductContainer->getProduct()->getLength() * $ProductContainer->getProduct()->getWidth() * $ProductContainer->getProduct()->getHeight();
             $VolumeProducts = $VolumeProduct * $ProductContainer->getQuantity();
 
-            $VolumeContainer = $ProductContainer->getContainer()->getContainerModel()->getlength() * $ProductContainer->getContainer()->getContainerModel()->getWidth() * $ProductContainer->getContainer()->getContainerModel()->getHeight();
-            dd($VolumeContainer);
+
+            $ContainerQuerry = $this->getDoctrine()->getRepository(ContainerProduct::class)->findBy(['container' => $ProductContainer->getContainer()]);
+
+            $sumVolume = 0;
+            foreach($ContainerQuerry as $obj) {
+                $currVolume = $obj->getProduct()->getLength() * $obj->getProduct()->getHeight() * $obj->getProduct()->getWidth() * $obj->getQuantity();
+                $sumVolume = $sumVolume + $currVolume;
+            }
+
+            $totalVolumeProduct = $VolumeProducts + $sumVolume;
 
 
-            // for example, if Task is a Doctrine entity, save it!
-//             $entityManager = $this->getDoctrine()->getManager();
-//             $entityManager->persist($ProductContainer);
-//             $entityManager->flush();
+            if ($VolumeContainer > $totalVolumeProduct) {
+//               for example, if Task is a Doctrine entity, save it!
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($ProductContainer);
+                $entityManager->flush();
+                // c'est pas très propre, je sais
+                echo '<p>Container Ajouté</p> <br>';
+                echo '<p>Le volume du conteneur est inférieur au Volume des Produits, les produits peuvent rentrer dans le container ! :)</p> <br>';
 
+            } else {
+                echo 'Le volume du conteneur est supérieur au Volume des Produits, les produits ne peuvent pas rentrer dans le container';
+            }
 
             //je sais pas s'il faut le faire ça ....
             //return $this->redirectToRoute('task_success');
