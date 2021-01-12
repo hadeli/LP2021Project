@@ -2,52 +2,52 @@
 
 namespace App\Entity;
 
-use App\Repository\ProductRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=ProductRepository::class)
+ * Product
+ *
+ * @ORM\Table(name="PRODUCT")
+ * @ORM\Entity
  */
 class Product
 {
     /**
+     * @var int
+     *
+     * @ORM\Column(name="ID", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @var string|null
+     *
+     * @ORM\Column(name="NAME", type="string", length=255, nullable=true)
      */
     private $name;
 
     /**
-     * @ORM\Column(type="integer")
+     * @var int|null
+     *
+     * @ORM\Column(name="LENGTH", type="integer", nullable=true)
      */
     private $length;
 
     /**
-     * @ORM\Column(type="integer")
+     * @var int|null
+     *
+     * @ORM\Column(name="WIDTH", type="integer", nullable=true)
      */
     private $width;
 
     /**
-     * @ORM\Column(type="integer")
+     * @var int|null
+     *
+     * @ORM\Column(name="HEIGHT", type="integer", nullable=true)
      */
     private $height;
-
-    /**
-     * @ORM\OneToMany(targetEntity=ContainerProduct::class, mappedBy="ProductId")
-     */
-    private $containerProducts;
-
-    public function __construct()
-    {
-        $this->containerProducts = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -59,7 +59,7 @@ class Product
         return $this->name;
     }
 
-    public function setName(string $name): self
+    public function setName(?string $name): self
     {
         $this->name = $name;
 
@@ -71,7 +71,7 @@ class Product
         return $this->length;
     }
 
-    public function setLength(int $length): self
+    public function setLength(?int $length): self
     {
         $this->length = $length;
 
@@ -83,7 +83,7 @@ class Product
         return $this->width;
     }
 
-    public function setWidth(int $width): self
+    public function setWidth(?int $width): self
     {
         $this->width = $width;
 
@@ -95,40 +95,12 @@ class Product
         return $this->height;
     }
 
-    public function setHeight(int $height): self
+    public function setHeight(?int $height): self
     {
         $this->height = $height;
 
         return $this;
     }
 
-    /**
-     * @return Collection|ContainerProduct[]
-     */
-    public function getContainerProducts(): Collection
-    {
-        return $this->containerProducts;
-    }
 
-    public function addContainerProduct(ContainerProduct $containerProduct): self
-    {
-        if (!$this->containerProducts->contains($containerProduct)) {
-            $this->containerProducts[] = $containerProduct;
-            $containerProduct->setProductId($this);
-        }
-
-        return $this;
-    }
-
-    public function removeContainerProduct(ContainerProduct $containerProduct): self
-    {
-        if ($this->containerProducts->removeElement($containerProduct)) {
-            // set the owning side to null (unless already changed)
-            if ($containerProduct->getProductId() === $this) {
-                $containerProduct->setProductId(null);
-            }
-        }
-
-        return $this;
-    }
 }

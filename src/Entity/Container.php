@@ -2,49 +2,51 @@
 
 namespace App\Entity;
 
-use App\Repository\ContainerRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=ContainerRepository::class)
+ * Container
+ *
+ * @ORM\Table(name="CONTAINER", uniqueConstraints={@ORM\UniqueConstraint(name="CONTAINER_ID_uindex", columns={"ID"})}, indexes={@ORM\Index(name="CONTAINER_CONTAINER_MODEL_ID_fk", columns={"CONTAINER_MODEL_ID"}), @ORM\Index(name="CONTAINER_CONTAINERSHIP_ID_fk", columns={"CONTAINERSHIP_ID"})})
+ * @ORM\Entity
  */
 class Container
 {
     /**
+     * @var int
+     *
+     * @ORM\Column(name="ID", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=20)
+     * @var string|null
+     *
+     * @ORM\Column(name="COLOR", type="string", length=20, nullable=true)
      */
     private $color;
 
     /**
-     * @ORM\ManyToOne(targetEntity=ContainerShip::class, inversedBy="containers")
-     * @ORM\JoinColumn(nullable=false)
+     * @var \Containership
+     *
+     * @ORM\ManyToOne(targetEntity="Containership")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="CONTAINERSHIP_ID", referencedColumnName="ID")
+     * })
      */
-    private $containerShipId;
+    private $containership;
 
     /**
-     * @ORM\ManyToOne(targetEntity=ContainerModel::class, inversedBy="containers")
-     * @ORM\JoinColumn(nullable=false)
+     * @var \ContainerModel
+     *
+     * @ORM\ManyToOne(targetEntity="ContainerModel")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="CONTAINER_MODEL_ID", referencedColumnName="ID")
+     * })
      */
-    private $ContainerModelId;
-
-    /**
-     * @ORM\OneToMany(targetEntity=ContainerProduct::class, mappedBy="containerId")
-     */
-    private $containerProducts;
-
-    public function __construct()
-    {
-        $this->containerProducts = new ArrayCollection();
-    }
+    private $containerModel;
 
     public function getId(): ?int
     {
@@ -56,64 +58,36 @@ class Container
         return $this->color;
     }
 
-    public function setColor(string $color): self
+    public function setColor(?string $color): self
     {
         $this->color = $color;
 
         return $this;
     }
 
-    public function getContainerShipId(): ?ContainerShip
+    public function getContainership(): ?Containership
     {
-        return $this->containerShipId;
+        return $this->containership;
     }
 
-    public function setContainerShipId(?ContainerShip $containerShipId): self
+    public function setContainership(?Containership $containership): self
     {
-        $this->containerShipId = $containerShipId;
+        $this->containership = $containership;
 
         return $this;
     }
 
-    public function getContainerModelId(): ?ContainerModel
+    public function getContainerModel(): ?ContainerModel
     {
-        return $this->ContainerModelId;
+        return $this->containerModel;
     }
 
-    public function setContainerModelId(?ContainerModel $ContainerModelId): self
+    public function setContainerModel(?ContainerModel $containerModel): self
     {
-        $this->ContainerModelId = $ContainerModelId;
+        $this->containerModel = $containerModel;
 
         return $this;
     }
 
-    /**
-     * @return Collection|ContainerProduct[]
-     */
-    public function getContainerProducts(): Collection
-    {
-        return $this->containerProducts;
-    }
 
-    public function addContainerProduct(ContainerProduct $containerProduct): self
-    {
-        if (!$this->containerProducts->contains($containerProduct)) {
-            $this->containerProducts[] = $containerProduct;
-            $containerProduct->setContainerId($this);
-        }
-
-        return $this;
-    }
-
-    public function removeContainerProduct(ContainerProduct $containerProduct): self
-    {
-        if ($this->containerProducts->removeElement($containerProduct)) {
-            // set the owning side to null (unless already changed)
-            if ($containerProduct->getContainerId() === $this) {
-                $containerProduct->setContainerId(null);
-            }
-        }
-
-        return $this;
-    }
 }

@@ -2,52 +2,52 @@
 
 namespace App\Entity;
 
-use App\Repository\ContainerModelRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=ContainerModelRepository::class)
+ * ContainerModel
+ *
+ * @ORM\Table(name="CONTAINER_MODEL")
+ * @ORM\Entity
  */
 class ContainerModel
 {
     /**
+     * @var int
+     *
+     * @ORM\Column(name="ID", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @var string|null
+     *
+     * @ORM\Column(name="NAME", type="string", length=255, nullable=true)
      */
     private $name;
 
     /**
-     * @ORM\Column(type="integer")
+     * @var int|null
+     *
+     * @ORM\Column(name="LENGTH", type="integer", nullable=true)
      */
     private $length;
 
     /**
-     * @ORM\Column(type="integer")
+     * @var int|null
+     *
+     * @ORM\Column(name="WIDTH", type="integer", nullable=true)
      */
     private $width;
 
     /**
-     * @ORM\Column(type="integer")
+     * @var int|null
+     *
+     * @ORM\Column(name="HEIGHT", type="integer", nullable=true)
      */
     private $height;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Container::class, mappedBy="ContainerModelId")
-     */
-    private $containers;
-
-    public function __construct()
-    {
-        $this->containers = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -59,7 +59,7 @@ class ContainerModel
         return $this->name;
     }
 
-    public function setName(string $name): self
+    public function setName(?string $name): self
     {
         $this->name = $name;
 
@@ -71,7 +71,7 @@ class ContainerModel
         return $this->length;
     }
 
-    public function setLength(int $length): self
+    public function setLength(?int $length): self
     {
         $this->length = $length;
 
@@ -83,7 +83,7 @@ class ContainerModel
         return $this->width;
     }
 
-    public function setWidth(int $width): self
+    public function setWidth(?int $width): self
     {
         $this->width = $width;
 
@@ -95,40 +95,12 @@ class ContainerModel
         return $this->height;
     }
 
-    public function setHeight(int $height): self
+    public function setHeight(?int $height): self
     {
         $this->height = $height;
 
         return $this;
     }
 
-    /**
-     * @return Collection|Container[]
-     */
-    public function getContainers(): Collection
-    {
-        return $this->containers;
-    }
 
-    public function addContainer(Container $container): self
-    {
-        if (!$this->containers->contains($container)) {
-            $this->containers[] = $container;
-            $container->setContainerModelId($this);
-        }
-
-        return $this;
-    }
-
-    public function removeContainer(Container $container): self
-    {
-        if ($this->containers->removeElement($container)) {
-            // set the owning side to null (unless already changed)
-            if ($container->getContainerModelId() === $this) {
-                $container->setContainerModelId(null);
-            }
-        }
-
-        return $this;
-    }
 }

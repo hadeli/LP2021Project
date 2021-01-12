@@ -2,76 +2,92 @@
 
 namespace App\Entity;
 
-use App\Repository\ContainerProductRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=ContainerProductRepository::class)
+ * ContainerProduct
+ *
+ * @ORM\Table(name="CONTAINER_PRODUCT", indexes={@ORM\Index(name="CONTAINER_PRODUCT_CONTAINER_ID_fk", columns={"CONTAINER_ID"}), @ORM\Index(name="CONTAINER_PRODUCT_PRODUCT_ID_fk", columns={"PRODUCT_ID"})})
+ * @ORM\Entity
  */
 class ContainerProduct
 {
     /**
+     * @var int
+     *
+     * @ORM\Column(name="ID", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Container::class, inversedBy="containerProducts")
-     * @ORM\JoinColumn(nullable=false)
+     * @var int|null
+     *
+     * @ORM\Column(name="QUANTITY", type="integer", nullable=true)
      */
-    private $containerId;
+    private $quantity;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Product::class, inversedBy="containerProducts")
-     * @ORM\JoinColumn(nullable=false)
+     * @var \Container
+     *
+     * @ORM\ManyToOne(targetEntity="Container")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="CONTAINER_ID", referencedColumnName="ID")
+     * })
      */
-    private $ProductId;
+    private $container;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @var \Product
+     *
+     * @ORM\ManyToOne(targetEntity="Product")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="PRODUCT_ID", referencedColumnName="ID")
+     * })
      */
-    private $Quantity;
+    private $product;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getContainerId(): ?Container
-    {
-        return $this->containerId;
-    }
-
-    public function setContainerId(?Container $containerId): self
-    {
-        $this->containerId = $containerId;
-
-        return $this;
-    }
-
-    public function getProductId(): ?Product
-    {
-        return $this->ProductId;
-    }
-
-    public function setProductId(?Product $ProductId): self
-    {
-        $this->ProductId = $ProductId;
-
-        return $this;
-    }
-
     public function getQuantity(): ?int
     {
-        return $this->Quantity;
+        return $this->quantity;
     }
 
-    public function setQuantity(?int $Quantity): self
+    public function setQuantity(?int $quantity): self
     {
-        $this->Quantity = $Quantity;
+        $this->quantity = $quantity;
 
         return $this;
     }
+
+    public function getContainer(): ?Container
+    {
+        return $this->container;
+    }
+
+    public function setContainer(?Container $container): self
+    {
+        $this->container = $container;
+
+        return $this;
+    }
+
+    public function getProduct(): ?Product
+    {
+        return $this->product;
+    }
+
+    public function setProduct(?Product $product): self
+    {
+        $this->product = $product;
+
+        return $this;
+    }
+
+
 }
