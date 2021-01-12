@@ -41,19 +41,18 @@ CreateContainerShip:
   path: /containership/new
   controller: App\Controller\ContainerShipController::CreateContainerShip
   methods: [POST, GET]
-  requirements:
-    id: \d+
 
 CreateProduct:
   path: /product/new
   controller: App\Controller\ProductController::CreateProduct
   methods: [POST, GET]
-  requirements:
-    id: \d+
 
 CreateProductContainer:
   path: /product-container/new
   controller: App\Controller\ProductContainerController::CreateProductContainer
   methods: [POST, GET]
-  requirements:
-    id: \d+
+
+CreateContainer:
+  path: /container/new
+  controller: App\Controller\ContainerController::CreateContainer
+  methods: [POST, GET]
