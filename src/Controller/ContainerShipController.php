@@ -47,7 +47,7 @@ class ContainerShipController extends AbstractController
             $containerShip->setContainerLimit($request->request->get('containerLimit'));
             $managerEntity->persist($containerShip);
             $managerEntity->flush();
-             return new Response('The container ship ' .$containerShip->getName().' has been successfully added');
+             return new Response('Le porte-conteneur ' .$containerShip->getName().' a été ajouté avec succès');
         } else{
             return $this->render('containership/containership.html.twig');
         }

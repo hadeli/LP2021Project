@@ -8,7 +8,8 @@ use App\Entity\ContainerProduct;
 use App\Entity\Product;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -26,7 +27,7 @@ class ContainerProductController extends AbstractController
             $containerProduct = new ContainerProduct();
 
             $form = $this->createFormBuilder($containerProduct)
-                ->add('quantity')
+                ->add('quantity', IntegerType::class)
                 ->add('container', EntityType::class, [
                     'class' => Container::class,
                     'choice_label' => 'id'
@@ -35,6 +36,7 @@ class ContainerProductController extends AbstractController
                     'class' => Product::class,
                     'choice_label' => 'name'
                 ])
+                ->add('submit', SubmitType::class, ['label' => 'Add'])
                 ->getForm();
 
             $form->handleRequest($request);
@@ -66,11 +68,11 @@ class ContainerProductController extends AbstractController
                     $entityManager->persist($containerProduct);
                     $entityManager->flush();
 
-                    return new Response("The product has been added to the container ".$containerProduct->getContainer()->getId());
+                    return new Response("Le produit a été ajouté dans le conteneur ".$containerProduct->getContainer()->getId());
 
                 } else {
 
-                    return new Response("There is not enough room in the container " .$containerProduct->getContainer()->getId());
+                    return new Response("Il n'y a pas assez de place dans le conteneur " .$containerProduct->getContainer()->getId());
                 }
             }
 

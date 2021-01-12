@@ -48,7 +48,7 @@ class ProductController extends AbstractController
             $product->setHeight($request->request->get('height'));
             $managerEntity->persist($product);
             $managerEntity->flush();
-            return new Response('The product ' .$product->getName().' has been successfully added');
+            return new Response('Le produit ' .$product->getName().' a été ajouté avec succès');
         } else{
             return $this->render('product/product.html.twig');
         }
