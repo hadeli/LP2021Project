@@ -34,10 +34,10 @@ class ContainerController extends AbstractController
             if ($id === 'new') {
                 $manager = $this->getDoctrine()->getManager();
                 $ship = $manager->getRepository(ContainerShip::class)
-                    ->findOneBy(['id' => $_POST['$containership_id']]);
+                    ->findOneBy(['id' => $_POST['containership_id']]);
 
                 $containers = $manager->getRepository(Container::class)
-                    ->findBy(['$containership_id' => $_POST['$containership_id']]);
+                    ->findBy(['containership_id' => $_POST['containership_id']]);
 
                 if (isset($ship)) {
                     if ((count($containers) + 1) <= $ship->getContainerLimit()) {
@@ -45,12 +45,12 @@ class ContainerController extends AbstractController
                             $container->setColor($_POST['color']);
                         }
 
-                        if (isset($_POST['$container_model_id'])) {
-                            $container->setContainerModelId($_POST['$container_model_id']);
+                        if (isset($_POST['container_model_id'])) {
+                            $container->setContainerModelId($_POST['container_model_id']);
                         }
 
-                        if (isset($_POST['$containership_id'])) {
-                            $container->setContainershipId($_POST['$containership_id']);
+                        if (isset($_POST['containership_id'])) {
+                            $container->setContainershipId($_POST['containership_id']);
                         }
 
                         $manager->persist($container);
