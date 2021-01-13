@@ -23,7 +23,6 @@ class ContainerProductController extends AbstractController
      */
     public function newContainerProduct(Request $request): Response
     {
-
             $containerProduct = new ContainerProduct();
 
             $form = $this->createFormBuilder($containerProduct)
@@ -47,16 +46,15 @@ class ContainerProductController extends AbstractController
 
                 $productVolume = $containerProduct->getProduct()->getLength() * $containerProduct->getProduct()->getWidth() * $containerProduct->getProduct()->getHeight() * $containerProduct->getQuantity();
 
-
                 $containerModel = $this->getDoctrine()->getRepository(ContainerModel::class)->find($containerProduct->getContainer()->getContainerModel());
                 $containerVolume = $containerModel->getLength() * $containerModel->getWidth() * $containerModel->getHeight();
 
-                $containers =  $this->getDoctrine()->getRepository(ContainerProduct::class)->findBy(['container' => $containerProduct->getContainer()]);
+                $nbProduct =  $this->getDoctrine()->getRepository(ContainerProduct::class)->findBy(['container' => $containerProduct->getContainer()]);
 
                 $usedVolume = 0;
 
-                foreach ($containers as $container){
-                    $productInside = $this->getDoctrine()->getRepository(Product::class)->find($container->getProduct());
+                foreach ($nbProduct as $nbProducts){
+                    $productInside = $this->getDoctrine()->getRepository(Product::class)->find($nbProducts->getProduct());
                     $usedVolume += $productInside->getLength() * $productInside->getWidth() * $productInside->getHeight();
                 }
 

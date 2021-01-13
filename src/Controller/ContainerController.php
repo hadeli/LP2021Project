@@ -65,12 +65,12 @@ class ContainerController extends AbstractController
 
             $container = $form->getData();
 
-            $containers =  $this->getDoctrine()->getRepository(Container::class)->findBy(['containership' => $container->getContainership()]);
-            $containers = count($containers);
+            $nbContainer =  $this->getDoctrine()->getRepository(Container::class)->findBy(['containership' => $container->getContainership()]);
+            $nbContainer  = count($nbContainer);
 
             $containerLimit = $container->getContainership()->getContainerLimit();
 
-            if ($containerLimit > $containers)
+            if ($containerLimit > $nbContainer)
             {
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($container);
