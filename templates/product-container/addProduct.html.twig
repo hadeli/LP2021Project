@@ -1,0 +1,8 @@
+<h1>Ajout d'un produit dans un conteneur</h1>
+
+{{ form_start(formContainerProduct) }}
+{{ form_row(formContainerProduct.container) }}
+{{ form_row(formContainerProduct.product) }}
+{{ form_row(formContainerProduct.quantity) }}
+<button type="submit">Add product</button>
+{{ form_end(formContainerProduct) }}
