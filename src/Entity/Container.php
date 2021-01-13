@@ -54,9 +54,22 @@ class Container
         return $this->container_model_id;
     }
 
+    public function setContainerModelId(int $container_model_id): self
+    {
+        $this->container_model_id = $container_model_id;
+
+        return $this;
+    }
+
     public function getContainershipId(): ?int
     {
         return $this->containership_id;
     }
 
+    public function setContainershipId(int $containership_id): self
+    {
+        $this->containership_id = $containership_id;
+
+        return $this;
+    }
 }
