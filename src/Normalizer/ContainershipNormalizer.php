@@ -14,7 +14,7 @@ class ContainershipNormalizer implements ContextAwareNormalizerInterface
     }
 
     /**
-     * @param Containership $object
+     * @param $object
      * @param string|null $format
      * @param array $context
      * @return array|ArrayObject|bool|float|int|string|null

@@ -3,6 +3,7 @@
 
 namespace App\Controller;
 
+use App\Form\ContainerProductType;
 use App\Entity\{Container, ContainerProduct, Product};
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -24,28 +25,8 @@ class ContainerProductController extends AbstractController
     {
         $containerProduct = new ContainerProduct();
 
-        $form = $this->createFormBuilder($containerProduct)
-            ->add('container', EntityType::class, [
-                'class' => Container::class,
-                'choice_label' => 'id',
-                'label' => 'Liste des conteneurs : '
-            ])
-            ->add('product', EntityType::class, [
-                'class' => Product::class,
-                'choice_label' => 'name',
-                'label' => 'Liste des produits : '
-            ])
-            ->add('quantity', IntegerType::class, [
-                'label' => 'Quantité des produits : ',
-                'attr' => [
-                    'placeholder' => 'Quantité des produits'
-                ]
-            ])
-            ->add('save', SubmitType::class, [
-                'label' => 'Enregistrer'
-            ])
-            ->getForm();
-
+        // Création du formulaire
+        $form = $this->createForm(ContainerProductType::class, $containerProduct);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -72,6 +53,7 @@ class ContainerProductController extends AbstractController
             if ($containerLimit - $productLimit < $productToInsert) {
                 $this->addFlash('error', 'Vous avez dépassé la place limite du conteneur !');
             } else {
+                // On insère les données dans la base de données
                 $this->manager->persist($containerProduct);
                 $this->manager->flush();
 

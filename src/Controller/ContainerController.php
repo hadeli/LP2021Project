@@ -2,9 +2,8 @@
 
 namespace App\Controller;
 
-use App\Entity\{Container, ContainerModel, Containership};
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\Extension\Core\Type\{SubmitType, TextType};
+use App\Entity\Container;
+use App\Form\ContainerType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\{JsonResponse, Request, Response};
@@ -33,28 +32,8 @@ class ContainerController extends AbstractController
     {
         $container = new Container();
 
-        $form = $this->createFormBuilder($container)
-            ->add('color', TextType::class, [
-                'label' => 'Couleur du conteneur : ',
-                'attr' => [
-                    'placeholder' => 'Couleur du conteneur'
-                ]
-            ])
-            ->add('containerModel', EntityType::class, [
-                'class' => ContainerModel::class,
-                'choice_label' => 'name',
-                'label' => 'Modèle du conteneur : '
-            ])
-            ->add('containership', EntityType::class, [
-                'class' => Containership::class,
-                'choice_label' => 'name',
-                'label' => 'Porte-conteneur : '
-            ])
-            ->add('save', SubmitType::class, [
-                'label' => 'Enregistrer'
-            ])
-            ->getForm();
-
+        // Création du formulaire
+        $form = $this->createForm(ContainerType::class, $container);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -69,6 +48,7 @@ class ContainerController extends AbstractController
             if (count($containerList) >= $containershipLimit) {
                 $this->addFlash('error', 'Ce porte-conteneurs ne peut pas excéder ' . $containershipLimit . ' conteneur(s) !');
             } else {
+                // On insère les données dans la base de données
                 $this->manager->persist($container);
                 $this->manager->flush();
 

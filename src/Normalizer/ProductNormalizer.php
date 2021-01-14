@@ -14,7 +14,7 @@ class ProductNormalizer implements ContextAwareNormalizerInterface
     }
 
     /**
-     * @param Product $object
+     * @param $object
      * @param string|null $format
      * @param array $context
      * @return array|ArrayObject|bool|float|int|string|null

@@ -3,9 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Containership;
+use App\Form\ContainershipType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\{IntegerType, SubmitType, TextType};
 use Symfony\Component\HttpFoundation\{JsonResponse, Request, Response};
 
 
@@ -32,33 +32,12 @@ class ContainershipController extends AbstractController
     {
         $containership = new Containership();
 
-        $form = $this->createFormBuilder($containership)
-            ->add('name', TextType::class, [
-                'label' => 'Nom du porte-conteneurs : ',
-                'attr' => [
-                    'placeholder' => 'Nom du porte-conteneurs'
-                ]
-            ])
-            ->add('captainName', TextType::class, [
-                'label' => 'Nom du capitaine : ',
-                'attr' => [
-                    'placeholder' => 'Nom du capitaine'
-                ]
-            ])
-            ->add('containerLimit', IntegerType::class, [
-                'label' => 'Limite de conteneur(s) : ',
-                'attr' => [
-                    'placeholder' => 'Limite de conteneur(s)'
-                ]
-            ])
-            ->add('save', SubmitType::class, [
-                'label' => 'Enregistrer'
-            ])
-            ->getForm();
-
+        // Création du formulaire
+        $form = $this->createForm(ContainershipType::class, $containership);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // On insère les données dans la base de données
             $this->manager->persist($containership);
             $this->manager->flush();
 
