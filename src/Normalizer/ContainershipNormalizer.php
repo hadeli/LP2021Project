@@ -19,13 +19,24 @@ class ContainershipNormalizer implements ContextAwareNormalizerInterface
      */
     public function normalize($object, string $format = null, array $context = [])
     {
-        $data = [
+        return [
             'id' => $object->getId(),
             'name' => $object->getName(),
             'captain_name' => $object->getCaptainName(),
             'container_limit' => $object->getContainerLimit(),
+            'containers_on_board' => count($object->getContainers()),
+            'containers' => $this->getContainers($object),
         ];
+    }
 
-        return $data;
+    // Get containers
+    private function getContainers($object) {
+        $containers = [];
+        foreach ($object->getContainers() as $container) {
+            $c = [];
+            array_push($c,"Id: ". $container->getId());
+            array_push($containers,$c);
+        }
+        return $containers;
     }
 }

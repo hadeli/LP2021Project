@@ -19,14 +19,12 @@ class ProductNormalizer implements ContextAwareNormalizerInterface
      */
     public function normalize($object, string $format = null, array $context = [])
     {
-        $data = [
+        return [
             'id' => $object->getId(),
             'name' => $object->getName(),
             'length' => $object->getLength(),
             'width' => $object->getWidth(),
             'height' => $object->getHeight(),
         ];
-
-        return $data;
     }
 }

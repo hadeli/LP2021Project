@@ -6,6 +6,7 @@ use App\Entity\Containership;
 use App\Repository\ContainershipRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -24,27 +25,32 @@ class ContainershipController extends AbstractController
     }
 
     /**
-     * @Route("/add", name="addContainership")
+     * @Route("/new", name="newContainership", methods={"GET"})
+     * @param Request $request
      * @return JsonResponse
      */
-    public function add(): JsonResponse
+    public function new(Request $request): JsonResponse
     {
-        $containership = $this->generateOne();
+        // Required values in GET parameters : name, captainName, containerLimit
+        $name = $request->query->get('name');
+        $captainName = $request->query->get('captainName');
+        $containerLimit = $request->query->get('containerLimit');
+
+        if (!$name || !$captainName || !$containerLimit) {
+            return $this->json('Error in parameters. Needed : [name, captainName, containerLimit]');
+        }
+
+        $containership = new Containership();
+        $containership
+            ->setName($name)
+            ->setCaptainName($captainName)
+            ->setContainerLimit($containerLimit);
 
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($containership);
         $entityManager->flush();
 
         return $this->json($containership);
-    }
-
-    private function generateOne(): Containership {
-        $containership = new Containership();
-        $containership
-            ->setName("Navire #".time())
-            ->setCaptainName("Dylan")
-            ->setContainerLimit(rand(1, 300));
-        return $containership;
     }
 
     /**
