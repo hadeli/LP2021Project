@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * ContainerProduct
  *
- * @ORM\Table(name="CONTAINER_PRODUCT", indexes={@ORM\Index(name="CONTAINER_PRODUCT_CONTAINER_ID_fk", columns={"CONTAINER_ID"}), @ORM\Index(name="CONTAINER_PRODUCT_PRODUCT_ID_fk", columns={"PRODUCT_ID"})})
+ * @ORM\Table(name="container_product", indexes={@ORM\Index(name="CONTAINER_PRODUCT_CONTAINER_ID_fk", columns={"CONTAINER_ID"}), @ORM\Index(name="CONTAINER_PRODUCT_PRODUCT_ID_fk", columns={"PRODUCT_ID"})})
  * @ORM\Entity(repositoryClass="App\Repository\ContainerProductRepository")
  */
 class ContainerProduct
@@ -24,7 +24,7 @@ class ContainerProduct
     /**
      * @var int|null
      *
-     * @ORM\Column(name="QUANTITY", type="integer", nullable=true)
+     * @ORM\Column(name="quantity", type="integer", nullable=true)
      */
     private $quantity;
 
@@ -33,7 +33,7 @@ class ContainerProduct
      *
      * @ORM\ManyToOne(targetEntity="Container")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="CONTAINER_ID", referencedColumnName="ID")
+     *   @ORM\JoinColumn(name="container_id", referencedColumnName="ID")
      * })
      */
     private $container;
@@ -43,7 +43,7 @@ class ContainerProduct
      *
      * @ORM\ManyToOne(targetEntity="Product")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="PRODUCT_ID", referencedColumnName="ID")
+     *   @ORM\JoinColumn(name="product_id", referencedColumnName="ID")
      * })
      */
     private $product;

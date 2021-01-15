@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Container;
+use App\Entity\ContainerModel;
 use App\Entity\ContainerProduct;
 use App\Entity\Product;
 use Doctrine\ORM\EntityManagerInterface;
@@ -46,9 +47,57 @@ class ContainerProductController extends AbstractController
 
         $form->handleRequest($request);
 
+        $repository = $this->getDoctrine()->getRepository(ContainerProduct::class);
+
+        if($form->isSubmitted())
+        {
+            $containers = $repository->findBy(
+                ['container' => $containerproduct->getContainer()->getId()]
+            );
+
+            $curr_product = $containerproduct->getProduct();
+            if(isset($containers[0]))
+            {
+                $curr_container = $containers[0]->getContainer()->getContainerModel();
+                $base_container = $max_volume = $containerproduct->getContainer()->getContainerModel();
+                $product_volume = $containerproduct->getQuantity()*$curr_product->getHeight()*$curr_product->getWidth()*$curr_product->getLength();
+                $available_volume = $curr_container->getHeight()*$curr_container->getWidth()*$curr_container->getLength();
+                $max_volume = $base_container->getWidth()*$base_container->getHeight()*$base_container->getLength();
+
+                if($product_volume+$available_volume > $max_volume )
+                {
+                    unset($manager);
+                    return $this->render('index.html.twig', [
+                        'form' => $form->createView(),
+                        'error' => "Le conteneur n°" . $containerproduct->getContainer()->getId() .  " est plein. Veuillez essayer avec un autre conteneur. (" .
+                            $product_volume . "mm + ". $available_volume . "mm = " . $product_volume+$available_volume . "mm est supérieur àu volume max de " . $max_volume . "mm)"
+                    ]);
+                }
+            } else {
+                $base_container = $max_volume = $containerproduct->getContainer()->getContainerModel();
+                $product_volume = $containerproduct->getQuantity()*$curr_product->getHeight()*$curr_product->getWidth()*$curr_product->getLength();
+                $available_volume = 0;
+                $max_volume = $base_container->getWidth()*$base_container->getHeight()*$base_container->getLength();
+
+                if($product_volume > $max_volume)
+                {
+                    unset($manager);
+                    return $this->render('index.html.twig', [
+                        'form' => $form->createView(),
+                        'error' => "Veuillez insérer moins de produits dans le conteneur n°" . $containerproduct->getContainer()->getId() .  " est plein. Vous insérez trop de produits dans ce conteneur vide. (" .
+                            $product_volume . "mm est supérieur àu volume max de " . $max_volume . "mm)"
+                    ]);
+                }
+            }
+        }
+
         if($form->isSubmitted() && $form->isValid()) {
-            $manager->persist($containerproduct);
-            $manager->flush();
+            $curr_container = $containerproduct->getContainer()->getContainerModel();
+            if(count($containers) < $curr_container->getHeight()*$curr_container->getWidth()*$curr_container->getLength())
+            {
+                $manager->persist($containerproduct);
+                $manager->flush();
+            }
 
             return $this->redirectToRoute('get_one_container', ['id' => $containerproduct->getContainer()->getId()]);
         }

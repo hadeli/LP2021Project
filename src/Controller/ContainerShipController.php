@@ -44,7 +44,7 @@ class ContainerShipController extends AbstractController
      */
     public function createAction(Request $request, EntityManagerInterface  $manager)
     {
-        $containership = new    Containership();
+        $containership = new Containership();
 
         $form = $this->createFormBuilder($containership)
             ->add('name', TextType::class)

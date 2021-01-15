@@ -62,7 +62,26 @@ class ContainerController extends AbstractController
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()) {
+        $repository = $this->getDoctrine()->getRepository(Container::class);
+
+        if($form->isSubmitted())
+        {
+            $containerships = $repository->findBy(
+                ['containership' => $container->getContainership()->getId()]
+            );
+
+
+            if(count($containerships) >= $container->getContainership()->getContainerLimit())
+            {
+                unset($manager);
+                return $this->render('index.html.twig', [
+                    'form' => $form->createView(),
+                    'error' => "Le porte-conteneur \"" . $container->getContainership()->getName() .  "\" est plein. Veuillez essayer avec un autre porte-conteneur."
+                ]);
+            }
+        }
+
+        if($form->isSubmitted() && $form->isValid() && count($containerships) < $container->getContainership()->getContainerLimit()) {
             $manager->persist($container);
             $manager->flush();
 

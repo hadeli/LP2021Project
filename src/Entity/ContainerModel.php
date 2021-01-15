@@ -7,8 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * ContainerModel
  *
- * @ORM\Table(name="CONTAINER_MODEL")
- * @ORM\Entity(repositoryClass="App\Repository\ContainerModelRepository")
+ * @ORM\Table(name="container_model")
+ * @ORM\Entity
  */
 class ContainerModel
 {
@@ -22,30 +22,30 @@ class ContainerModel
     private $id;
 
     /**
-     * @var string|null
+     * @var string
      *
-     * @ORM\Column(name="NAME", type="string", length=255, nullable=true)
+     * @ORM\Column(name="name", type="string", length=255, nullable=false)
      */
     private $name;
 
     /**
-     * @var int|null
+     * @var int
      *
-     * @ORM\Column(name="LENGTH", type="integer", nullable=true)
+     * @ORM\Column(name="length", type="integer", nullable=false)
      */
     private $length;
 
     /**
-     * @var int|null
+     * @var int
      *
-     * @ORM\Column(name="WIDTH", type="integer", nullable=true)
+     * @ORM\Column(name="width", type="integer", nullable=false)
      */
     private $width;
 
     /**
-     * @var int|null
+     * @var int
      *
-     * @ORM\Column(name="HEIGHT", type="integer", nullable=true)
+     * @ORM\Column(name="height", type="integer", nullable=false)
      */
     private $height;
 
@@ -59,7 +59,7 @@ class ContainerModel
         return $this->name;
     }
 
-    public function setName(?string $name): self
+    public function setName(string $name): self
     {
         $this->name = $name;
 
@@ -71,7 +71,7 @@ class ContainerModel
         return $this->length;
     }
 
-    public function setLength(?int $length): self
+    public function setLength(int $length): self
     {
         $this->length = $length;
 
@@ -83,7 +83,7 @@ class ContainerModel
         return $this->width;
     }
 
-    public function setWidth(?int $width): self
+    public function setWidth(int $width): self
     {
         $this->width = $width;
 
@@ -95,7 +95,7 @@ class ContainerModel
         return $this->height;
     }
 
-    public function setHeight(?int $height): self
+    public function setHeight(int $height): self
     {
         $this->height = $height;
 
