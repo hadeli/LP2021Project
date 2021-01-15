@@ -3,11 +3,12 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Containership
  *
- * @ORM\Table(name="containership")
+ * @ORM\Table(name="CONTAINERSHIP")
  * @ORM\Entity(repositoryClass="App\Repository\ContainershipRepository")
  */
 class Containership
@@ -39,6 +40,7 @@ class Containership
      * @var int|null
      *
      * @ORM\Column(name="CONTAINER_LIMIT", type="integer", nullable=true)
+     * @Assert\PositiveOrZero
      */
     private $containerLimit;
 

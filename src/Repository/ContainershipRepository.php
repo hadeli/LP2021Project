@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Container;
 use App\Entity\Containership;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -19,22 +20,17 @@ class ContainershipRepository extends ServiceEntityRepository
         parent::__construct($registry, Containership::class);
     }
 
-    // /**
-    //  * @return Containership[] Returns an array of Containership objects
-    //  */
-    /*
-    public function findByExampleField($value)
+
+    public function isFull($containership_id)
     {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('c.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+        $containership = $this->find($containership_id);
+        $limit = $containership->getContainerLimit();
+
+
+        // dd($yeet);
+
+        // SELECT COUNT(CONTAINER.ID) FROM CONTAINER WHERE CONTAINERSHIP_ID=$containership_id
     }
-    */
 
     /*
     public function findOneBySomeField($value): ?Containership

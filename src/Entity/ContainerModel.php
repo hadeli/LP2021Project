@@ -3,11 +3,12 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * ContainerModel
  *
- * @ORM\Table(name="container_model")
+ * @ORM\Table(name="CONTAINER_MODEL")
  * @ORM\Entity(repositoryClass="App\Repository\ContainerModelRepository")
  */
 class ContainerModel
@@ -25,6 +26,7 @@ class ContainerModel
      * @var string|null
      *
      * @ORM\Column(name="NAME", type="string", length=255, nullable=true)
+     * @Assert\NotBlank
      */
     private $name;
 
@@ -32,6 +34,8 @@ class ContainerModel
      * @var int|null
      *
      * @ORM\Column(name="LENGTH", type="integer", nullable=true)
+     * @Assert\PositiveOrZero
+     * @Assert\NotBlank
      */
     private $length;
 
@@ -39,6 +43,8 @@ class ContainerModel
      * @var int|null
      *
      * @ORM\Column(name="WIDTH", type="integer", nullable=true)
+     * @Assert\PositiveOrZero
+     * @Assert\NotBlank
      */
     private $width;
 
@@ -46,6 +52,8 @@ class ContainerModel
      * @var int|null
      *
      * @ORM\Column(name="HEIGHT", type="integer", nullable=true)
+     * @Assert\PositiveOrZero
+     * @Assert\NotBlank
      */
     private $height;
 

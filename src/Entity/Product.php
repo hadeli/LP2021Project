@@ -3,11 +3,12 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Product
  *
- * @ORM\Table(name="product")
+ * @ORM\Table(name="PRODUCT")
  * @ORM\Entity(repositoryClass="App\Repository\ProductRepository")
  */
 class Product
@@ -32,6 +33,7 @@ class Product
      * @var int|null
      *
      * @ORM\Column(name="LENGTH", type="integer", nullable=true)
+     * @Assert\PositiveOrZero
      */
     private $length;
 
@@ -39,6 +41,7 @@ class Product
      * @var int|null
      *
      * @ORM\Column(name="WIDTH", type="integer", nullable=true)
+     * @Assert\PositiveOrZero
      */
     private $width;
 
@@ -46,6 +49,7 @@ class Product
      * @var int|null
      *
      * @ORM\Column(name="HEIGHT", type="integer", nullable=true)
+     * @Assert\PositiveOrZero
      */
     private $height;
 

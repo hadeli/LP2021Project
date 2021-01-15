@@ -3,11 +3,12 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * ContainerProduct
  *
- * @ORM\Table(name="container_product", indexes={@ORM\Index(name="CONTAINER_PRODUCT_PRODUCT_ID_fk", columns={"PRODUCT_ID"}), @ORM\Index(name="CONTAINER_PRODUCT_CONTAINER_ID_fk", columns={"CONTAINER_ID"})})
+ * @ORM\Table(name="CONTAINER_PRODUCT", indexes={@ORM\Index(name="CONTAINER_PRODUCT_PRODUCT_ID_fk", columns={"PRODUCT_ID"}), @ORM\Index(name="CONTAINER_PRODUCT_CONTAINER_ID_fk", columns={"CONTAINER_ID"})})
  * @ORM\Entity(repositoryClass="App\Repository\ContainerProductRepository")
  */
 class ContainerProduct
@@ -25,6 +26,7 @@ class ContainerProduct
      * @var int|null
      *
      * @ORM\Column(name="QUANTITY", type="integer", nullable=true)
+     * @Assert\PositiveOrZero
      */
     private $quantity;
 
