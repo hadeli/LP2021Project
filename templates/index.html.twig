@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+
+{{ form(form) }}
+{%  if error is defined %}
+    <span> ERROR : {{ error }}</span>
+{% endif %}
+{# ... #}
+{% endblock body %}
