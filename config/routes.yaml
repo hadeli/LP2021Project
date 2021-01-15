@@ -1,3 +1,28 @@
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index
+
+get_container:
+  path: /container
+  controller: App\Controller\ContainerController::getAllContainer
+  methods: GET
+
+ContainershipAdd:
+  path: /containerships/new
+  controller: App\Controller\ContainershipController::containershipAdd
+  methods: [GET, POST]
+
+ProductAdd:
+  path: /products/new
+  controller: App\Controller\ProductController::productAdd
+  methods: [GET, POST]
+
+ProductContainerAdd:
+  path: /product-container/new
+  controller: App\Controller\ContainerProductController::containerProductAdd
+  methods: [GET, POST]
+
+ContainerAdd:
+  path: /containers/new
+  controller: App\Controller\ContainerController::containerAdd
+  methods: [GET, POST]

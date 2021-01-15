@@ -1,0 +1,12 @@
+{{ form_start(form) }}
+<div class="row">
+    {% if form.container is defined %}
+    <div class="col">
+        {{ form_row(form.container) }}
+    </div>
+    {% endif %}
+    <div class="col" id="some-custom-id">
+        {{ form(form) }}
+    </div>
+</div>
+{{ form_end(form) }}
