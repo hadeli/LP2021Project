@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Nouveau produit{% endblock %}</title>
+    {% block stylesheets %}{% endblock %}
+</head>
+<body>
+<h1>Création d'un produit dans un conteneur</h1>
+{% block body %}
+    {{ form(formProduct) }}
+{% endblock %}
+{% block javascripts %}{% endblock %}
+</body>
+</html>
