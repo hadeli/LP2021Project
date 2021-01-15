@@ -26,6 +26,6 @@ class ContainerProductFormType extends \Symfony\Component\Form\AbstractType
                 'class' => Product::class,
                 'choice_label' => 'name',
             ])
-            ->add('save', SubmitType::class, ['label' => 'Create Container']);
+            ->add('save', SubmitType::class, ['label' => 'Add to container']);
     }
 }

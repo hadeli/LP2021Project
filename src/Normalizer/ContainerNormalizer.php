@@ -27,10 +27,11 @@ class ContainerNormalizer implements ContextAwareNormalizerInterface
      */
     public function normalize($object, string $format = null, array $context = [])
     {
+
         return [
             'id' => $object->getId(),
             'color' => $object->getColor(),
-            'containership' => $object->getContainership()->getId()
+            'containership' => $object->getContainership()->getId(),
         ];
     }
 }

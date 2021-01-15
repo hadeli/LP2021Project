@@ -12,29 +12,19 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ContainershipController extends AbstractController
 {
-    /**
-     * @Route("/containership", name="containership")
-     */
+
     public function index(): Response
     {
         return $this->json($this->getDoctrine()->getRepository(Containership::class)->findAll());
     }
 
-    /**
-     * @Route("/containership/{id}", methods={"GET"})
-     * @param $id
-     * @return JsonResponse
-     */
+
     public function show($id): JsonResponse
     {
         return $this->json($this->getDoctrine()->getRepository(Containership::class)->find($id));
     }
 
-    /**
-     * @Route("/containership_new")
-     * @param Request $request
-     * @return Response
-     */
+
     public function createContainership(Request $request)
     {
         $containership = new Containership();
@@ -45,6 +35,8 @@ class ContainershipController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->persist($containership);
             $em->flush();
+
+            return $this->redirect('/containership');
         }
 
         return $this->render('container_product/new.html.twig', [

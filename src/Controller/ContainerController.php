@@ -13,29 +13,19 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ContainerController extends AbstractController
 {
-    /**
-     * @Route("/container", name="container", methods={"GET"})
-     */
+
     public function index(): JsonResponse
     {
         return $this->json($this->getDoctrine()->getRepository(Container::class)->findAll());
     }
 
-    /**
-     * @Route("/container/{id}", methods={"GET"})
-     * @param $id
-     * @return JsonResponse
-     */
+
     public function show($id): JsonResponse
     {
         return $this->json($this->getDoctrine()->getRepository(Container::class)->find($id));
     }
 
-    /**
-     * @Route("/container_new")
-     * @param Request $request
-     * @return Response
-     */
+
     public function createContainer(Request $request)
     {
         $container = new Container();
@@ -54,14 +44,15 @@ class ContainerController extends AbstractController
 
             $remainingspace = $containerLimit - $numberOfCarriedContainers - 1;
 
-            if ($remainingspace >= 0)
+            if ($remainingspace <= 0)
             {
-                return $this->redirect('/container_new');
+                return $this->redirect('/container/new');
             }
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($container);
             $em->flush();
+            return $this->redirect('/container');
         }
 
         return $this->render('container/new.html.twig', [

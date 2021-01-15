@@ -15,29 +15,19 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ProductController extends AbstractController
 {
-    /**
-     * @Route("/product", name="product")
-     */
+
     public function index(): Response
     {
         return $this->json($this->getDoctrine()->getRepository(Product::class)->findAll());
     }
 
-    /**
-     * @Route("/product/{id}", methods={"GET"})
-     * @param $id
-     * @return JsonResponse
-     */
+
     public function show($id): JsonResponse
     {
         return $this->json($this->getDoctrine()->getRepository(Product::class)->find($id));
     }
 
-    /**
-     * @Route("/product_new")
-     * @param Request $request
-     * @return Response
-     */
+
     public function createProduct(Request $request)
     {
         $product = new Product();
@@ -48,6 +38,8 @@ class ProductController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->persist($product);
             $em->flush();
+
+            return $this->redirect('/product');
         }
 
         return $this->render('product/new.html.twig', [
@@ -56,11 +48,7 @@ class ProductController extends AbstractController
     }
 
 
-    /**
-     * @Route("/product-container_new")
-     * @param Request $request
-     * @return Response
-     */
+
     public function createProductContainer(Request $request)
     {
         $containerProduct = new ContainerProduct();
@@ -91,7 +79,7 @@ class ProductController extends AbstractController
 
             if ($containerLimit - $productLimit < $productToInsert) {
                 $this->addFlash('error', 'Vous avez dépassé la place limite du conteneur !');
-                return $this->redirect('/product-container_new');
+                return $this->redirect('/product-container/new');
             }
 
             $em = $this->getDoctrine()->getManager();
