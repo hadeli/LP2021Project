@@ -68,9 +68,36 @@ class ProductController extends AbstractController
         $containerProductForm->handleRequest($request);
 
         if ($containerProductForm->isSubmitted() && $containerProductForm->isValid()) {
+
+            $containerLimit =
+                $containerProduct->getContainer()->getContainerModel()->getLength() *
+                $containerProduct->getContainer()->getContainerModel()->getHeight() *
+                $containerProduct->getContainer()->getContainerModel()->getWidth();
+
+
+            $productToInsert = ($containerProduct->getProduct()->getLength() * $containerProduct->getProduct()->getHeight() * $containerProduct->getProduct()->getWidth())
+                * $containerProduct->getQuantity();
+
+
+            $allProduct = $this->getDoctrine()->getRepository(ContainerProduct::class)->findBy([
+                'container' => $containerProduct->getContainer()->getContainerModel()->getId()
+            ]);
+
+            $productLimit = 0;
+
+            foreach ($allProduct as $product) {
+                $productLimit += ($product->getProduct()->getLength() * $product->getProduct()->getWidth() * $product->getProduct()->getHeight()) * $product->getQuantity();
+            }
+
+            if ($containerLimit - $productLimit < $productToInsert) {
+                $this->addFlash('error', 'Vous avez dépassé la place limite du conteneur !');
+                return $this->redirect('/product-container_new');
+            }
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($containerProduct);
             $em->flush();
+            return $this->redirect('/container');
         }
 
         return $this->render('container_product/new.html.twig', [

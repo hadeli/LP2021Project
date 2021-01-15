@@ -44,9 +44,19 @@ class ContainerController extends AbstractController
 
         if ($containerForm->isSubmitted() && $containerForm->isValid()) {
 
-            if ($this->getDoctrine()->getRepository(Containership::class)->isFull($container->getContainership()->getId()))
+            // Needs it s own validator.
+            $containershipId = $container->getContainership()->getId();
+            $numberOfCarriedContainers = $this->getDoctrine()->getRepository(Container::class)->findBy(['containership' => $containershipId]);
+            $numberOfCarriedContainers = count($numberOfCarriedContainers);
+
+            $containerShipQuerry = $this->getDoctrine()->getRepository(Containership::class)->find($containershipId);
+            $containerLimit = $containerShipQuerry->getContainerLimit();
+
+            $remainingspace = $containerLimit - $numberOfCarriedContainers - 1;
+
+            if ($remainingspace >= 0)
             {
-                echo 'yey';
+                return $this->redirect('/container_new');
             }
 
             $em = $this->getDoctrine()->getManager();
