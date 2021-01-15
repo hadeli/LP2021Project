@@ -1,0 +1,55 @@
+AllContainer:
+  path: /container
+  controller: App\Controller\ContainerController::index
+  methods: GET
+
+OneContainer:
+  path: /container/{id}
+  controller: App\Controller\ContainerController::show
+  methods: GET
+  requirements:
+    id: \d+
+
+NewContainer:
+  path: /container/new
+  controller: App\Controller\ContainerController::createContainer
+  methods: [GET, POST]
+
+AllContainership:
+  path: /containership
+  controller: App\Controller\ContainershipController::index
+  methods: GET
+
+OneContainership:
+  path: /containership/{id}
+  controller: App\Controller\ContainershipController::show
+  methods: GET
+  requirements:
+    id: \d+
+
+NewContainership:
+  path: /containership/new
+  controller: App\Controller\ContainershipController::createContainership
+  methods: [GET, POST]
+
+AllProduct:
+  path: /product
+  controller: App\Controller\ProductController::index
+  methods: GET
+
+OneProduct:
+  path: /product/{id}
+  controller: App\Controller\ProductController::show
+  methods: GET
+  requirements:
+    id: \d+
+
+NewProduct:
+  path: /product/new
+  controller: App\Controller\ProductController::createProduct
+  methods: [GET, POST]
+
+NewProductContainer:
+  path: /product-container/new
+  controller: App\Controller\ProductController::createProductContainer
+  methods: [GET, POST]
