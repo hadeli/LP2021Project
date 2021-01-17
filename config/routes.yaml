@@ -3,15 +3,17 @@ getAllContainer:
     controller: App\Controller\ContainerController::getAllContainer
     methods: GET
 
+createContainer:
+  path: /container/new
+  controller: App\Controller\ContainerController::createContainer
+  methods: [POST, GET]
+
 getContainerId:
   path: /container/{id}
   controller: App\Controller\ContainerController::getContainerById
   methods: GET
 
-createContainer:
-  path: /container/new
-  controller: App\Controller\ContainerController::createContainer
-  methods: GET
+
 
 getAllContainership:
   path: /containership
@@ -40,12 +42,14 @@ getAllProduct:
   controller: App\Controller\ProductController::getAllProduct
   methods: GET
 
-getAllProductId:
-  path: /product/{id}
-  controller: App\Controller\ProductController::getProductById
-  methods: GET
+
 
 createProduct:
   path: /product/new
   controller: App\Controller\ProductController::createProduct
+  methods: [POST, GET]
+
+getProductId:
+  path: /product/{id}
+  controller: App\Controller\ProductController::getProductById
   methods: GET

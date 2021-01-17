@@ -23,6 +23,6 @@ class ContainerNormalizer implements ContextAwareNormalizerInterface
         return ['id' => $object->getId(),
             'color' => $object->getColor(),
             'containerModel' => $object->getContainerModel(),
-            'containerShip' => $object->getContainerShip(),];
+            'containerShip' => $object->getContainership(),];
     }
 }

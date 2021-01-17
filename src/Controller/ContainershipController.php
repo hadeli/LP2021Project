@@ -6,12 +6,11 @@ namespace App\Controller;
 
 
 use App\Entity\Container;
-use App\Entity\ContainerShip;
+use App\Entity\Containership;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 
 class ContainershipController extends AbstractController
 {
@@ -49,6 +48,7 @@ class ContainershipController extends AbstractController
         $containership->setName($request->get('name'));
         $containership->setCaptainName($request->get('captain_name'));
         $containership->setContainerLimit($request->get('container_limit'));
+
         $manager->persist($containership);
         $manager->flush();
 

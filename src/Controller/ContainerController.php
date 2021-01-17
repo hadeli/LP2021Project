@@ -41,12 +41,30 @@ class ContainerController extends AbstractController
     public function createContainer(Request $request)
     {
         $manager = $this->getDoctrine()->getManager();
-        $container = new Containership();
-        $container->setName($request->get('name'));
-        $container->setCaptainName($request->get('captain_name'));
-        $container->setContainerLimit($request->get('container_limit'));
-        $manager->persist($container);
-        $manager->flush();
+        
+
+        $ship = $manager->getRepository(Containership::class)->findOneBy(['id' => $_POST['containership']]);
+
+        $containers = $manager->getRepository(Container::class)->findBy(['containership' => $_POST['containerModel']]);
+
+
+        if((sizeof($containers) + 1) <= $ship->getContainerLimit()) {
+            $container = new Container();
+            $container->setColor($request->get('color'));
+            $container->setContainerModel($request->get('container_model_id'));
+            $container->setContainership($request->get('containership_id'));
+            $manager->persist($container);
+            $manager->flush();
+
+            $manager->persist($container);
+            $manager->flush();
+        } else {
+            $container = [
+                'error' => 'The ship is full !'
+            ];
+        }
+
+
 
         return $this->json($container);
     }
