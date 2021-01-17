@@ -23,7 +23,6 @@ class Product
 
     /**
      * @var string|null
-     *
      * @ORM\Column(name="NAME", type="string", length=255, nullable=true)
      */
     private $name;
